@@ -1,0 +1,24 @@
+# Welcome to Guess the Place!
+
+**Guess the Place** is a small game realized with Flutter, Inspired by GeoGuessr. You can try to guess the geographical location of a random image, by recognizing elements like road signs, fauna and flora. There are two different game modes:
+
+ - Log in and play
+ - Arcade mode
+
+## Log in and play
+
+##### *Create an account and beat the high score!*
+
+In this game mode, you can create a minimal account (only a nickname and a password are required). You will then play a match composed by 5 rounds. In every round you'll have to guess a different place, by picking its coordinates in a map. The closer you will get, the bigger will be your score. Your high score will be shown in a leaderboard, exclusive for registered players.
+
+## Arcade mode
+
+##### *Unlimited matches to train your skills*
+
+In this game mode, you won't require to create an account and you will able to play as many matches as you want, however you won't be able to see your high score in the leaderboard. You will still be able to see the most recent match scores of all the players, including your scores.
+
+## Credits
+
+Street view imagery provided by Mapillary.
+
+Maps provided by OpenStreetMaps.
