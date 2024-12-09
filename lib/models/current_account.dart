@@ -1,33 +1,63 @@
 class CurrentAccount {
   String? guidAccount;
-  String username;
+  String? username;
   String? password;
   int? personalRecord;
+  CurrentAccountStatus accountStatus;
+  String? accountStatusError;
 
-  static final CurrentAccount _singleton =
-      CurrentAccount._internal(username: "");
+  static final CurrentAccount _singleton = CurrentAccount._internal();
 
-  CurrentAccount._internal({required this.username});
+  CurrentAccount._internal()
+      : accountStatus = CurrentAccountStatus.unregistered;
 
   factory CurrentAccount() {
     return _singleton;
   }
 
-  CurrentAccount.registered(
-      {required this.guidAccount,
-      required this.username,
-      required this.password,
-      required this.personalRecord}) {
-    guidAccount = guidAccount;
-    username = username;
-    password = password;
-    personalRecord = personalRecord;
+  static CurrentAccount login(
+      {required guidAccount,
+      required username,
+      required password,
+      required personalRecord}) {
+    _singleton.guidAccount = guidAccount;
+    _singleton.username = username;
+    _singleton.password = password;
+    _singleton.personalRecord = personalRecord;
+    _singleton.accountStatus = CurrentAccountStatus.registered;
+    _singleton.accountStatusError = null;
+    return _singleton;
   }
 
-  CurrentAccount.unregistered({required this.username}) {
-    username = username;
-    guidAccount = null;
-    password = null;
-    personalRecord = -99999;
+  static CurrentAccount arcade({required String username}) {
+    _singleton.username = username;
+    _singleton.guidAccount = null;
+    _singleton.password = null;
+    _singleton.personalRecord = null;
+    _singleton.accountStatus = CurrentAccountStatus.arcade;
+    _singleton.accountStatusError = null;
+    return _singleton;
+  }
+
+  static CurrentAccount logout() {
+    _singleton.guidAccount = null;
+    _singleton.username = null;
+    _singleton.password = null;
+    _singleton.personalRecord = null;
+    _singleton.accountStatus = CurrentAccountStatus.unregistered;
+    _singleton.accountStatusError = null;
+    return _singleton;
+  }
+
+  static CurrentAccount notifyError({required String error}) {
+    _singleton.guidAccount = null;
+    _singleton.username = null;
+    _singleton.password = null;
+    _singleton.personalRecord = null;
+    _singleton.accountStatus = CurrentAccountStatus.error;
+    _singleton.accountStatusError = error;
+    return _singleton;
   }
 }
+
+enum CurrentAccountStatus { unregistered, arcade, registered, error }

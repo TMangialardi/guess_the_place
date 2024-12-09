@@ -15,12 +15,17 @@ final aboutTextProvider = FutureProvider.autoDispose((ref) async {
 });
 
 final currentAccountProvider =
-    AsyncNotifierProvider<AccountNotifier, CurrentAccount>(() {
+    AsyncNotifierProvider<AccountNotifier, CurrentAccount?>(() {
   debugPrint("Build CurrentAccoutProvider");
   return AccountNotifier();
 });
 
-final loginCredentialsProvider = StateProvider.autoDispose((ref) {
-  debugPrint("Building loginCredentialsProvider");
+final loginUsernameProvider = StateProvider((ref) {
+  debugPrint("Building loginUsernameProvider");
+  return "";
+});
+
+final loginPasswordProvider = StateProvider((ref) {
+  debugPrint("Building loginPasswordProvider");
   return "";
 });

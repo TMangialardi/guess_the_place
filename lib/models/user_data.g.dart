@@ -33,7 +33,7 @@ Results _$ResultsFromJson(Map<String, dynamic> json) {
     guidAccount: json['GUIDAccount'] as String?,
     username: json['Username'] as String?,
     password: json['Password'] as String?,
-    personalRecord: (json['PersonalRecord'] as num?)?.toInt() ?? -99999,
+    personalRecord: json['PersonalRecord'] as String? ?? '-99999',
   );
 }
 

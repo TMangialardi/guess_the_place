@@ -47,7 +47,8 @@ class LoginPagePortrait extends ConsumerWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
-                const LoginInput()
+                const LoginInput(),
+                const LoginButton()
               ],
             )),
           ]),

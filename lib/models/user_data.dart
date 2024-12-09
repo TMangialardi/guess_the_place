@@ -33,8 +33,8 @@ class Results {
   String? username;
   @JsonKey(name: 'Password', required: true)
   String? password;
-  @JsonKey(name: 'PersonalRecord', required: false, defaultValue: -99999)
-  int? personalRecord;
+  @JsonKey(name: 'PersonalRecord', required: false, defaultValue: "-99999")
+  String? personalRecord;
 
   Results(
       {this.id,
