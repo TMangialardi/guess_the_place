@@ -14,8 +14,11 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   }
 
   Future<void> login(String username, String password) async {
-    state = const AsyncValue.loading();
-
+    if (username.isEmpty || password.isEmpty) {
+      state = AsyncValue.data(CurrentAccount.notifyError(
+          error: "Username and password can't be empty."));
+      return;
+    }
     final hashedPassword = sha1.convert(utf8.encode(password)).toString();
     debugPrint("Calling the API...");
     final response = await http.get(
@@ -30,7 +33,6 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
       state = AsyncValue.data(CurrentAccount.notifyError(
           error: "Couldn't check account information, try again later."));
       return;
-      //throw Exception("Couldn't check account information, try again later.");
     }
     Map<String, dynamic> rawAccount = jsonDecode(response.body);
     final account = UserData.fromJson(rawAccount);
@@ -57,12 +59,20 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   }
 
   Future<void> arcadeLogin(String username) async {
+    if (username.isEmpty) {
+      state = AsyncValue.data(
+          CurrentAccount.notifyError(error: "Username can't be empty."));
+      return;
+    }
     state = AsyncValue.data(CurrentAccount.arcade(username: username));
   }
 
   Future<void> registerAndLogin(String username, String password) async {
-    state = const AsyncValue.loading();
-
+    if (username.isEmpty || password.isEmpty) {
+      state = AsyncValue.data(CurrentAccount.notifyError(
+          error: "Username and password can't be empty."));
+      return;
+    }
     final response = await http.get(
         Uri.parse(
             "https://api.baserow.io/api/database/rows/table/400552/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22"
@@ -73,7 +83,6 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
       state = AsyncValue.data(CurrentAccount.notifyError(
           error: "Couldn't check account information, try again later."));
       return;
-      //throw Exception("Couldn't check account information, try again later.");
     }
     Map<String, dynamic> rawAccount = jsonDecode(response.body);
     final account = UserData.fromJson(rawAccount);
@@ -82,24 +91,22 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
       state = AsyncValue.data(CurrentAccount.notifyError(
           error: "Account information error, contact the administrator."));
       return;
-      //throw Exception("Account information error, contact the administrator.");
     }
 
     if (account.results!.isNotEmpty) {
       state = AsyncValue.data(CurrentAccount.notifyError(
           error: "There is already an account with that username."));
       return;
-      //throw Exception("There is already an account with that username.");
     }
 
     final hashedPassword = sha1.convert(utf8.encode(password)).toString();
 
-    final Map accountToCreate = {
-      'username': username,
-      'password': hashedPassword,
-      'personalRecord': 0,
+    final Map<String, String> accountToCreate = {
+      'Username': username,
+      'Password': hashedPassword,
+      'PersonalRecord': '0',
     };
-
+    debugPrint(jsonEncode(accountToCreate));
     final creation = await http.post(
         Uri.parse(
             "https://api.baserow.io/api/database/rows/table/400552/?user_field_names=true"),
@@ -108,17 +115,14 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
           'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE',
           'Content-Type': 'application/json'
         });
-
     if (creation.statusCode != 200) {
       state = AsyncValue.data(CurrentAccount.notifyError(
           error: "Error during the creation of the account, try again."));
       return;
-      //throw Exception("Error during the creation of the account, try again.");
     }
 
-    dynamic rawCreatedAccount = jsonDecode(creation.body);
-    final createdAccount =
-        Results.fromJson(rawCreatedAccount.cast<Map<String, dynamic>>());
+    Map<String, dynamic> rawCreatedAccount = jsonDecode(creation.body);
+    final createdAccount = Results.fromJson(rawCreatedAccount);
 
     CurrentAccount.login(
         guidAccount: createdAccount.guidAccount,
@@ -130,7 +134,6 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   }
 
   Future<void> logout() async {
-    state = const AsyncValue.loading();
     state = AsyncValue.data(CurrentAccount.logout());
   }
 }

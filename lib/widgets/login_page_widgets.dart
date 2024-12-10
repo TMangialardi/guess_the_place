@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_the_place/models/current_account.dart';
-import 'package:guess_the_place/pages/about_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:moon_design/moon_design.dart';
 
@@ -79,7 +77,6 @@ class LoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginUsername = ref.watch(loginUsernameProvider);
     final loginPassword = ref.watch(loginPasswordProvider);
-    final loggedAccount = ref.watch(currentAccountProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
 
     return MoonFilledButton(
@@ -87,18 +84,24 @@ class LoginButton extends ConsumerWidget {
         onTap: () {
           debugPrint("user: $loginUsername pass: $loginPassword");
           accountprovider.login(loginUsername, loginPassword);
+        });
+  }
+}
 
-          debugPrint("trying to access to the object");
+class RegisterButton extends ConsumerWidget {
+  const RegisterButton({super.key});
 
-          if (loggedAccount.value!.accountStatus ==
-              CurrentAccountStatus.error) {
-            MoonToast.show(context,
-                label: Text(loggedAccount.value!.accountStatusError!));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AboutPage(),
-            ));
-          }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginUsername = ref.watch(loginUsernameProvider);
+    final loginPassword = ref.watch(loginPasswordProvider);
+    final accountprovider = ref.read(currentAccountProvider.notifier);
+
+    return MoonFilledButton(
+        label: const Text("Register"),
+        onTap: () {
+          debugPrint("user: $loginUsername pass: $loginPassword");
+          accountprovider.registerAndLogin(loginUsername, loginPassword);
         });
   }
 }
