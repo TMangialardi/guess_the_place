@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/pages/about_page.dart';
+import 'package:guess_the_place/pages/arcade_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:moon_design/moon_design.dart';
@@ -34,7 +35,9 @@ class GameModesWidget extends StatelessWidget {
             trailing:
                 const Icon(MoonIcons.controls_chevron_right_small_32_light),
             onTap: () {
-              debugPrint("Arcade mode pressed");
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ArcadePage(),
+              ));
             }),
       ],
     );

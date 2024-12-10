@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/pages/about_page.dart';
+import 'package:guess_the_place/pages/arcade_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:moon_design/moon_design.dart';
@@ -54,6 +55,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),
+        '/arcadeLogin': (context) => const ArcadePage(),
       },
       theme: darkThemeEnabled ? darkTheme : lightTheme,
       home: HomePage(darkThemeEnabled: darkThemeEnabled),

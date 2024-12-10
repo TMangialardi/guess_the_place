@@ -82,6 +82,7 @@ class LoginButton extends ConsumerWidget {
     return MoonFilledButton(
         label: const Text("Login"),
         onTap: () {
+          FocusScope.of(context).unfocus();
           debugPrint("user: $loginUsername pass: $loginPassword");
           accountprovider.login(loginUsername, loginPassword);
         });
@@ -100,6 +101,7 @@ class RegisterButton extends ConsumerWidget {
     return MoonFilledButton(
         label: const Text("Register"),
         onTap: () {
+          FocusScope.of(context).unfocus();
           debugPrint("user: $loginUsername pass: $loginPassword");
           accountprovider.registerAndLogin(loginUsername, loginPassword);
         });
