@@ -8,6 +8,7 @@ class ArcadeLoginInput extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     final TextEditingController textController = TextEditingController();
 
     return MoonTextInput(
@@ -33,6 +34,7 @@ class ArcadeLoginButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     final arcadeUsername = ref.watch(loginUsernameProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
 

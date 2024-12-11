@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
@@ -11,6 +12,7 @@ class ArcadePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Building $this");
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
           ? const ArcadePagePortrait()
@@ -24,6 +26,7 @@ class ArcadePagePortrait extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
         MoonToast.show(context, label: Text(next.value!.accountStatusError!));
@@ -75,6 +78,7 @@ class ArcadePageLandscape extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
         MoonToast.show(context, label: Text(next.value!.accountStatusError!));
@@ -86,38 +90,50 @@ class ArcadePageLandscape extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 40, 50, 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(children: [
-              MoonButton.icon(
-                icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ]),
-            Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "Enter a nickname and play without creating an account",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: ArcadeLoginInput(),
-                    ),
-                    SizedBox(width: 50),
-                    Expanded(child: ArcadeLoginButton())
-                  ],
+        padding: const EdgeInsets.fromLTRB(50, 35, 50, 15),
+        child: ConstrainedBox(
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(children: [
+                MoonButton.icon(
+                  icon: const Icon(
+                      MoonIcons.controls_chevron_left_small_24_regular),
+                  onTap: () => Navigator.pop(context),
                 )
-              ],
-            )),
-          ],
+              ]),
+              Expanded(child: LayoutBuilder(builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Enter a nickname and play without creating an account",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: ArcadeLoginInput(),
+                            ),
+                            SizedBox(width: 50),
+                            Expanded(child: ArcadeLoginButton())
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              })),
+            ],
+          ),
         ),
       ),
     );

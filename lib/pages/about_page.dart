@@ -9,15 +9,20 @@ class AboutPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     final about = ref.watch(aboutTextProvider);
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
+    return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
+      return Padding(
+        padding: orientation == Orientation.portrait
+            ? const EdgeInsets.fromLTRB(15, 55, 15, 25)
+            : const EdgeInsets.fromLTRB(50, 35, 50, 15),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Row(
             children: [
               MoonButton.icon(
-                icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
+                icon: Icon(orientation == Orientation.portrait
+                    ? MoonIcons.controls_chevron_left_32_regular
+                    : MoonIcons.controls_chevron_left_small_24_regular),
                 onTap: () => Navigator.pop(context),
               )
             ],
@@ -31,7 +36,7 @@ class AboutPage extends ConsumerWidget {
                           "Error reading the about text. Go back and try again.",
                       loading: () => "Loading...")))
         ]),
-      ),
-    );
+      );
+    }));
   }
 }

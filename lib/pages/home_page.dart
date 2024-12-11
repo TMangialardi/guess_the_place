@@ -9,12 +9,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    debugPrint("Building $this");
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
           ? HomePagePortrait(darkThemeEnabled)
@@ -30,6 +25,7 @@ class HomePagePortrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Building $this");
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
@@ -56,9 +52,10 @@ class HomePageLandscape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Building $this");
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 40, 50, 15),
+        padding: const EdgeInsets.fromLTRB(50, 35, 50, 15),
         child: Center(
           child: Column(children: [
             DarkModeSwitchWidget(darkThemeEnabled),

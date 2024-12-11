@@ -11,6 +11,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Building $this");
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
           ? const LoginPagePortrait()
@@ -23,6 +24,7 @@ class LoginPagePortrait extends ConsumerWidget {
   const LoginPagePortrait({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
         MoonToast.show(context, label: Text(next.value!.accountStatusError!));
@@ -82,6 +84,7 @@ class LoginPageLandscape extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
         MoonToast.show(context, label: Text(next.value!.accountStatusError!));
@@ -93,49 +96,58 @@ class LoginPageLandscape extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 40, 50, 15),
+        padding: const EdgeInsets.fromLTRB(50, 35, 50, 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(children: [
               MoonButton.icon(
-                icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
+                icon: const Icon(
+                    MoonIcons.controls_chevron_left_small_24_regular),
                 onTap: () => Navigator.pop(context),
               )
             ]),
-            Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "Enter your credentials to login or create an account",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: LoginInput(),
-                    ),
-                    SizedBox(width: 50),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              width: double.infinity, child: LoginButton()),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                              width: double.infinity, child: RegisterButton())
-                        ],
+            Expanded(child: LayoutBuilder(builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Enter your credentials to login or create an account",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        textAlign: TextAlign.center,
                       ),
-                    )
-                  ],
-                )
-              ],
-            )),
+                      const Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: LoginInput(),
+                          ),
+                          SizedBox(width: 50),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: double.infinity,
+                                    child: LoginButton()),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                    width: double.infinity,
+                                    child: RegisterButton())
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            })),
           ],
         ),
       ),

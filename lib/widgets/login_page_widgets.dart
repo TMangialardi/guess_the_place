@@ -75,6 +75,7 @@ class LoginButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     final loginUsername = ref.watch(loginUsernameProvider);
     final loginPassword = ref.watch(loginPasswordProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
@@ -94,6 +95,7 @@ class RegisterButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
     final loginUsername = ref.watch(loginUsernameProvider);
     final loginPassword = ref.watch(loginPasswordProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
