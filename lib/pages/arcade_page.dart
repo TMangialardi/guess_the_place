@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
@@ -29,7 +28,9 @@ class ArcadePagePortrait extends ConsumerWidget {
     debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
-        MoonToast.show(context, label: Text(next.value!.accountStatusError!));
+        MoonToast.show(context,
+            label: Text(next.value!.accountStatusError!),
+            variant: MoonToastVariant.inverted);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const AboutPage(),
@@ -81,7 +82,9 @@ class ArcadePageLandscape extends ConsumerWidget {
     debugPrint("Building $this");
     ref.listen(currentAccountProvider, (prev, next) {
       if (next.value!.accountStatus == CurrentAccountStatus.error) {
-        MoonToast.show(context, label: Text(next.value!.accountStatusError!));
+        MoonToast.show(context,
+            label: Text(next.value!.accountStatusError!),
+            variant: MoonToastVariant.inverted);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const AboutPage(),
@@ -90,7 +93,7 @@ class ArcadePageLandscape extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 35, 50, 15),
+        padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
         child: ConstrainedBox(
           constraints:
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
@@ -100,7 +103,7 @@ class ArcadePageLandscape extends ConsumerWidget {
               Row(children: [
                 MoonButton.icon(
                   icon: const Icon(
-                      MoonIcons.controls_chevron_left_small_24_regular),
+                      MoonIcons.controls_chevron_left_small_16_regular),
                   onTap: () => Navigator.pop(context),
                 )
               ]),

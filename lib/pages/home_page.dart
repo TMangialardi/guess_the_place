@@ -55,7 +55,7 @@ class HomePageLandscape extends StatelessWidget {
     debugPrint("Building $this");
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 35, 50, 15),
+        padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
         child: Center(
           child: Column(children: [
             DarkModeSwitchWidget(darkThemeEnabled),

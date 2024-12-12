@@ -15,14 +15,14 @@ class AboutPage extends ConsumerWidget {
       return Padding(
         padding: orientation == Orientation.portrait
             ? const EdgeInsets.fromLTRB(15, 55, 15, 25)
-            : const EdgeInsets.fromLTRB(50, 35, 50, 15),
+            : const EdgeInsets.fromLTRB(50, 30, 50, 15),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Row(
             children: [
               MoonButton.icon(
                 icon: Icon(orientation == Orientation.portrait
                     ? MoonIcons.controls_chevron_left_32_regular
-                    : MoonIcons.controls_chevron_left_small_24_regular),
+                    : MoonIcons.controls_chevron_left_small_16_regular),
                 onTap: () => Navigator.pop(context),
               )
             ],

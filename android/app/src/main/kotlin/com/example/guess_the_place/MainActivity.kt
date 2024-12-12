@@ -1,4 +1,4 @@
-package com.example.guess_the_place
+package com.tmang.guesstheplace
 
 import io.flutter.embedding.android.FlutterActivity
 
