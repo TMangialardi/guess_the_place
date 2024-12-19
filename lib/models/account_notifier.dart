@@ -136,4 +136,10 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   Future<void> logout() async {
     state = AsyncValue.data(CurrentAccount.logout());
   }
+
+  Future<void> newGame() async =>
+      state = AsyncValue.data(CurrentAccount.newGame());
+
+  Future<void> playMatch(int points) async =>
+      state = AsyncValue.data(CurrentAccount.playMatch(points));
 }

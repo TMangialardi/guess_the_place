@@ -32,7 +32,7 @@ class MatchResults {
   String? identifier;
   @JsonKey(name: 'ArcadeName')
   String? arcadeName;
-  @JsonKey(name: 'DteTime')
+  @JsonKey(name: 'DateTime')
   String? dateTime;
   @JsonKey(name: 'MatchLat')
   String? matchLat;

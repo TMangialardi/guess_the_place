@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
-import 'package:guess_the_place/pages/about_page.dart';
+import 'package:guess_the_place/pages/account_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/login_page_widgets.dart';
 import 'package:moon_design/moon_design.dart';
@@ -32,7 +32,7 @@ class LoginPagePortrait extends ConsumerWidget {
             variant: MoonToastVariant.inverted);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const AboutPage(),
+          builder: (context) => const AccountPage(),
         ));
       }
     });
@@ -94,7 +94,7 @@ class LoginPageLandscape extends ConsumerWidget {
             variant: MoonToastVariant.inverted);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const AboutPage(),
+          builder: (context) => const AccountPage(),
         ));
       }
     });

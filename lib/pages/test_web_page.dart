@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guess_the_place/providers.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:moon_design/moon_design.dart';
 
@@ -10,6 +11,7 @@ class TestWebPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var currentMatch = ref.watch(matchProvider);
     debugPrint("Building $this");
     return Scaffold(
         body: Padding(
@@ -26,23 +28,28 @@ class TestWebPage extends ConsumerWidget {
           child: ClipRRect(
               clipBehavior: Clip.antiAlias,
               borderRadius: BorderRadius.circular(20.0),
-              child: InAppWebView(
-                  initialUrlRequest: URLRequest(
-                      url: WebUri(
-                          "https://www.mapillary.com/embed?image_key=550092599700936&style=photo")),
-                  onWebViewCreated: (controller) {
-                    // Store controller if needed for further interaction
-                  },
-                  shouldOverrideUrlLoading:
-                      (controller, navigationAction) async {
-                    // Prevent navigation to other pages
-                    final isSamePage = navigationAction.request.url
-                            .toString() ==
-                        "https://www.mapillary.com/embed?image_key=550092599700936&style=photo";
-                    return isSamePage
-                        ? NavigationActionPolicy.ALLOW
-                        : NavigationActionPolicy.CANCEL;
-                  })),
+              child: currentMatch.when(
+                data: (data) => InAppWebView(
+                    initialUrlRequest: URLRequest(
+                        url: WebUri(
+                            "https://www.mapillary.com/embed?image_key=${data!.mapillaryCode}&style=photo")),
+                    onWebViewCreated: (controller) {
+                      // Store controller if needed for further interaction
+                    },
+                    shouldOverrideUrlLoading:
+                        (controller, navigationAction) async {
+                      // Prevent navigation to other pages
+                      final isSamePage = navigationAction.request.url
+                              .toString() ==
+                          "https://www.mapillary.com/embed?image_key=${data.mapillaryCode}&style=photo";
+                      return isSamePage
+                          ? NavigationActionPolicy.ALLOW
+                          : NavigationActionPolicy.CANCEL;
+                    }),
+                error: (error, stacktrace) =>
+                    const Center(child: MoonCircularLoader()),
+                loading: () => const Center(child: MoonCircularLoader()),
+              )),
         ),
         const SizedBox(height: 50),
         Expanded(

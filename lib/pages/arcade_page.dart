@@ -32,6 +32,7 @@ class ArcadePagePortrait extends ConsumerWidget {
             label: Text(next.value!.accountStatusError!),
             variant: MoonToastVariant.inverted);
       } else {
+        ref.read(matchProvider.notifier).newMatch();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const TestWebPage(),
         ));
