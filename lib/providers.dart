@@ -5,6 +5,7 @@ import 'package:guess_the_place/models/account_notifier.dart';
 import 'package:guess_the_place/models/current_account.dart';
 import 'package:guess_the_place/models/game_match.dart';
 import 'package:guess_the_place/models/match_notifier.dart';
+import 'package:latlong2/latlong.dart';
 
 final darkThemeProvider = StateProvider.autoDispose((ref) {
   debugPrint("Building darkThemeProvider");
@@ -35,4 +36,9 @@ final loginPasswordProvider = StateProvider((ref) {
 final matchProvider = AsyncNotifierProvider<MatchNotifier, GameMatch?>(() {
   debugPrint("Build matchProvider");
   return MatchNotifier();
+});
+
+final pickedCoordinatesProvider = StateProvider.autoDispose<LatLng>((ref) {
+  debugPrint("Building pickedCoordinatesProvider");
+  return const LatLng(43.6841, 13.2433);
 });

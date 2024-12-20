@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
-import 'package:guess_the_place/pages/test_web_page.dart';
+import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/arcade_page_widgets.dart';
 import 'package:moon_design/moon_design.dart';
@@ -34,7 +34,7 @@ class ArcadePagePortrait extends ConsumerWidget {
       } else {
         ref.read(matchProvider.notifier).newMatch();
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const TestWebPage(),
+          builder: (context) => const MatchPage(),
         ));
       }
     });
@@ -88,7 +88,7 @@ class ArcadePageLandscape extends ConsumerWidget {
             variant: MoonToastVariant.inverted);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const TestWebPage(),
+          builder: (context) => const MatchPage(),
         ));
       }
     });
