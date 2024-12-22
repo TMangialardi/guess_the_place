@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/game_match.dart';
 import 'package:guess_the_place/models/mapillary_data.dart';
+import 'package:guess_the_place/providers.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,5 +45,80 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
 
     state = AsyncData(
         GameMatch(coordinates: coordinates, mapillaryCode: mapillaryCode!));
+  }
+
+  Future<void> saveMatch({required String arcadeName}) async {
+    final realCoordinates = state.value!.coordinates;
+    final guessedCoordinates = ref.watch(pickedCoordinatesProvider);
+
+    debugPrint(
+        "real coordinates: ${realCoordinates.latitude}|${realCoordinates.longitude}");
+    debugPrint(
+        "guessed coordinates: ${guessedCoordinates.latitude}|${guessedCoordinates.longitude}");
+    const distanceCalculator = Distance();
+
+    final distance = distanceCalculator.as(
+        LengthUnit.Kilometer, realCoordinates, guessedCoordinates);
+
+    debugPrint("distance: $distance");
+
+    final int points;
+
+    if (distance <= 100) {
+      points = 2000;
+    } else if (distance > 100 && distance <= 2100) {
+      points = 2000 - (distance.round() - 100);
+    } else {
+      points = 0;
+    }
+
+    debugPrint("points: $points");
+
+    ref.read(latestResultProvider.notifier).state = points;
+
+    final Map<String, String> matchToSave = {
+      'ArcadeName': ref.watch(currentAccountProvider).value!.username!,
+      'DateTime': DateTime.now().toIso8601String(),
+      'MatchLat': realCoordinates.latitude.toStringAsFixed(4),
+      'MatchLon': realCoordinates.longitude.toStringAsFixed(4),
+      'GuessedLat': guessedCoordinates.latitude.toStringAsFixed(4),
+      'GuessedLon': guessedCoordinates.longitude.toStringAsFixed(4),
+      'Points': points.toString(),
+    };
+    debugPrint(jsonEncode(matchToSave));
+    final creation = await http.post(
+        Uri.parse(
+            "https://api.baserow.io/api/database/rows/table/400571/?user_field_names=true"),
+        body: json.encode(matchToSave),
+        headers: {
+          'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE',
+          'Content-Type': 'application/json'
+        });
+    if (creation.statusCode != 200) {
+      debugPrint("Error saving the match data");
+      debugPrint(creation.body);
+    }
+
+    if (ref.watch(currentAccountProvider).value!.guidAccount != null) {
+      debugPrint("Saving points of registered account");
+      ref.read(currentAccountProvider.notifier).playMatch(points);
+    }
+    /*
+        Step necessari in questo metodo:
+        - leggere le coordinate nello stato
+        - leggere le cordinate nel provider della mappa
+        - calcolare la distanza tra le due coordinate
+        - calcolare il punteggio: 
+            2000 se d<100
+            2000-(d-100) se 100<d<2100
+            0 se d>2100
+        - salvare il record del punteggio
+        - se l'utente è registrato:
+            chiamare il metodo playmatch
+        - ritornare il punteggio corrente (forse con valore di ritorno diverso da void?)
+
+        c'è da capire quando fare l'update dell'highscore dell'utente,
+        forse c'è da creare un metodo ad-hoc nell'accountNotifier da chiamare nella schermata di fine partita
+        */
   }
 }

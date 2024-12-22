@@ -10,7 +10,7 @@ class AccountPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
 
-    var nickname = ref.watch(currentAccountProvider).value!.username ?? "";
+    var nickname = ref.read(currentAccountProvider).value!.username ?? "";
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
           ? AccountPagePortrait(nickname)

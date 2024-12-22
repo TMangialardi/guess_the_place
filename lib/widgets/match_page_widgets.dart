@@ -6,23 +6,38 @@ import 'package:guess_the_place/providers.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:moon_design/moon_design.dart';
 
-class SubmitGuessButton extends StatelessWidget {
+class SubmitGuessButton extends ConsumerWidget {
   const SubmitGuessButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
     Future<void> modalBuilder(BuildContext context) {
+      final scoredPoints = ref.watch(latestResultProvider);
       return showMoonModal<void>(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return MoonModal(
             child: SizedBox(
               height: 150,
               width: MediaQuery.of(context).size.width - 64,
-              child: const Center(
-                child: Text("This is MoonModal."),
-              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("you scored"),
+                    Text(
+                      scoredPoints.toString(),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    MoonFilledButton(
+                      onTap: () {
+                        ref.read(matchProvider.notifier).newMatch();
+                        Navigator.of(context).pop();
+                      },
+                      label: const Text("Continue"),
+                    )
+                  ]),
             ),
           );
         },
@@ -33,7 +48,11 @@ class SubmitGuessButton extends StatelessWidget {
       builder: (BuildContext context) {
         return MoonFilledButton(
           label: const Text("Submit guess"),
-          onTap: () => modalBuilder(context),
+          onTap: () {
+            var arcadeName = ref.read(currentAccountProvider).value!.username!;
+            ref.read(matchProvider.notifier).saveMatch(arcadeName: arcadeName);
+            modalBuilder(context);
+          },
         );
       },
     );
