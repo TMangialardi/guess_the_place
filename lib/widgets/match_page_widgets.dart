@@ -18,27 +18,47 @@ class SubmitGuessButton extends ConsumerWidget {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return MoonModal(
-            child: SizedBox(
-              height: 150,
-              width: MediaQuery.of(context).size.width - 64,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("you scored"),
-                    Text(
-                      scoredPoints.toString(),
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    MoonFilledButton(
-                      onTap: () {
-                        ref.read(matchProvider.notifier).newMatch();
-                        Navigator.of(context).pop();
-                      },
-                      label: const Text("Continue"),
-                    )
-                  ]),
-            ),
+          return PopScope(
+            canPop: false,
+            child: OrientationBuilder(builder: (context, orientation) {
+              return MoonModal(
+                child: SizedBox(
+                  height: orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.height - 500
+                      : MediaQuery.of(context).size.height - 100,
+                  width: orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.width - 100
+                      : MediaQuery.of(context).size.width - 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("you scored"),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            scoredPoints.toString(),
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          const SizedBox(height: 10),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: ClipRRect(
+                                  clipBehavior: Clip.antiAlias,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  child: _ResultModalMap()),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          _ResultModalContinueButton()
+                        ]),
+                  ),
+                ),
+              );
+            }),
           );
         },
       );
@@ -55,6 +75,62 @@ class SubmitGuessButton extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _ResultModalContinueButton extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MoonOutlinedButton(
+      onTap: () {
+        ref.watch(matchProvider.notifier).newMatch();
+        Navigator.of(context).pop();
+      },
+      label: const Text("Continue"),
+    );
+  }
+}
+
+class _ResultModalMap extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FlutterMap(
+      options: MapOptions(
+        initialCenter: ref.read(pickedCoordinatesProvider),
+        initialZoom: 3.0,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        ),
+        MarkerLayer(markers: [
+          Marker(
+            width: 80.0,
+            height: 80.0,
+            point: ref.read(pickedCoordinatesProvider),
+            child: const Icon(
+              MoonIcons.maps_location_32_regular,
+              color: Color.fromARGB(255, 255, 7, 7),
+            ),
+          ),
+          Marker(
+            width: 80.0,
+            height: 80.0,
+            point: ref.read(matchProvider).value!.coordinates,
+            child: const Icon(
+              MoonIcons.maps_location_32_regular,
+              color: Color.fromARGB(255, 7, 155, 7),
+            ),
+          ),
+        ]),
+        PolylineLayer(polylines: [
+          Polyline(points: [
+            ref.read(pickedCoordinatesProvider),
+            ref.read(matchProvider).value!.coordinates
+          ], color: const Color.fromARGB(255, 7, 105, 255))
+        ])
+      ],
     );
   }
 }

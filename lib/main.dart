@@ -57,7 +57,7 @@ class MyApp extends ConsumerWidget {
         '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),
         '/arcadeLogin': (context) => const ArcadePage(),
-        '/account': (context) => const AccountPage()
+        '/account': (context) => const AccountPage(),
       },
       theme: darkThemeEnabled ? darkTheme : lightTheme,
       home: HomePage(darkThemeEnabled: darkThemeEnabled),
