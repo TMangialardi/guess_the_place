@@ -70,8 +70,16 @@ class SubmitGuessButton extends ConsumerWidget {
           label: const Text("Submit guess"),
           onTap: () {
             var arcadeName = ref.read(currentAccountProvider).value!.username!;
-            ref.read(matchProvider.notifier).saveMatch(arcadeName: arcadeName);
-            modalBuilder(context);
+            if (ref.watch(matchProvider).value == null) {
+              MoonToast.show(context,
+                  variant: MoonToastVariant.inverted,
+                  label: const Text('You must see a place before guessing!'));
+            } else {
+              ref
+                  .read(matchProvider.notifier)
+                  .saveMatch(arcadeName: arcadeName);
+              modalBuilder(context);
+            }
           },
         );
       },

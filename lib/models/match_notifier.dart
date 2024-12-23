@@ -27,7 +27,7 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
       debugPrint("Calling Mapillary API...");
       final response = await http.get(Uri.parse(
           "https://graph.mapillary.com/images?access_token=MLY|8426886974094861|f893688326346a2713136e0e15290d5a&fields=id&bbox="
-          "${coordinates.latitude - 0.5},${coordinates.longitude - 0.5},${coordinates.latitude + 0.5},${coordinates.longitude + 0.5}&limit=5"));
+          "${coordinates.longitude - 0.5},${coordinates.latitude - 0.5},${coordinates.longitude + 0.5},${coordinates.latitude + 0.5}&limit=5"));
       debugPrint("URI: ${response.request?.url.toString()}");
       debugPrint("API called: ${response.body} checking status code...");
       if (response.statusCode != 200) {
