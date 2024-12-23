@@ -10,7 +10,7 @@ import 'package:guess_the_place/models/current_account.dart';
 class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   @override
   FutureOr<CurrentAccount?> build() {
-    return null;
+    return state.value;
   }
 
   Future<void> login(String username, String password) async {

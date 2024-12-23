@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class MatchNotifier extends AsyncNotifier<GameMatch?> {
   @override
   FutureOr<GameMatch?> build() {
-    return null;
+    return state.value;
   }
 
   Future<void> newMatch() async {

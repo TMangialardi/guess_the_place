@@ -71,21 +71,23 @@ class MapillaryWebView extends ConsumerWidget {
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(20.0),
         child: currentMatch.when(
-          data: (data) => InAppWebView(
-              initialUrlRequest: URLRequest(
-                  url: WebUri(
-                      "https://www.mapillary.com/embed?image_key=${data!.mapillaryCode}&style=photo")),
-              onWebViewCreated: (controller) {
-                // Store controller if needed for further interaction
-              },
-              shouldOverrideUrlLoading: (controller, navigationAction) async {
-                // Prevent navigation to other pages
-                final isSamePage = navigationAction.request.url.toString() ==
-                    "https://www.mapillary.com/embed?image_key=${data.mapillaryCode}&style=photo";
-                return isSamePage
-                    ? NavigationActionPolicy.ALLOW
-                    : NavigationActionPolicy.CANCEL;
-              }),
+          data: (data) {
+            final url =
+                "https://www.mapillary.com/embed?image_key=${data!.mapillaryCode}&style=photo";
+            return InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri(url)),
+                onWebViewCreated: (controller) {
+                  // Store controller if needed for further interaction
+                },
+                shouldOverrideUrlLoading: (controller, navigationAction) async {
+                  // Prevent navigation to other pages
+                  final isSamePage =
+                      navigationAction.request.url.toString() == url;
+                  return isSamePage
+                      ? NavigationActionPolicy.ALLOW
+                      : NavigationActionPolicy.CANCEL;
+                });
+          },
           error: (error, stacktrace) =>
               const Center(child: MoonCircularLoader()),
           loading: () => const Center(child: MoonCircularLoader()),
@@ -105,6 +107,7 @@ class MapView extends ConsumerWidget {
         child: FlutterMap(
           options: MapOptions(
               initialCenter: const LatLng(43.6841, 13.2433),
+              initialZoom: 5.0,
               onTap: (tapLoc, position) {
                 debugPrint(
                     "Lat: ${position.latitude}|Lon: ${position.longitude}");
