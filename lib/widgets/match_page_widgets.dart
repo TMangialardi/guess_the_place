@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guess_the_place/pages/final_result_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:moon_design/moon_design.dart';
@@ -91,10 +92,20 @@ class SubmitGuessButton extends ConsumerWidget {
 class _ResultModalContinueButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentAccount = ref.watch(currentAccountProvider);
     return MoonOutlinedButton(
       onTap: () {
-        ref.watch(matchProvider.notifier).newMatch();
-        Navigator.of(context).pop();
+        if (currentAccount.value!.guidAccount != null &&
+            currentAccount.value!.remainingMatches == 0) {
+          ref.read(currentAccountProvider.notifier).updateHighScore();
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const FinalResultPage(),
+          ));
+        } else {
+          ref.watch(matchProvider.notifier).newMatch();
+          Navigator.of(context).pop();
+        }
       },
       label: const Text("Continue"),
     );

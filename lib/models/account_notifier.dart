@@ -52,6 +52,7 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
 
     state = AsyncValue.data(CurrentAccount.login(
         guidAccount: account.results![0].guidAccount,
+        baserowLineId: account.results![0].id,
         username: account.results![0].username!,
         password: account.results![0].password,
         personalRecord:
@@ -126,6 +127,7 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
 
     CurrentAccount.login(
         guidAccount: createdAccount.guidAccount,
+        baserowLineId: createdAccount.id,
         username: createdAccount.username!,
         password: createdAccount.password,
         personalRecord: int.parse(createdAccount.personalRecord ?? "-99999"));
@@ -142,4 +144,27 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
 
   Future<void> playMatch(int points) async =>
       state = AsyncValue.data(CurrentAccount.playMatch(points));
+
+  Future<void> updateHighScore() async {
+    if (state.value!.guidAccount != null &&
+        state.value!.currentScore! > state.value!.personalRecord!) {
+      debugPrint("Updating the personal high score...");
+      final Map<String, String> newScore = {
+        'PersonalRecord': state.value!.currentScore.toString(),
+      };
+      debugPrint(jsonEncode(newScore));
+      final update = await http.patch(
+          Uri.parse(
+              "https://api.baserow.io/api/database/rows/table/400552/${state.value!.baserowLineId}/?user_field_names=true"),
+          body: json.encode(newScore),
+          headers: {
+            'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE',
+            'Content-Type': 'application/json'
+          });
+      if (update.statusCode != 200) {
+        debugPrint("Error during the creation of the account, try again.");
+        return;
+      }
+    }
+  }
 }

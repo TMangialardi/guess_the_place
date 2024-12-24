@@ -1,5 +1,6 @@
 class CurrentAccount {
   String? guidAccount;
+  int? baserowLineId;
   String? username;
   String? password;
   int? personalRecord;
@@ -19,10 +20,12 @@ class CurrentAccount {
 
   static CurrentAccount login(
       {required guidAccount,
+      required baserowLineId,
       required username,
       required password,
       required personalRecord}) {
     _singleton.guidAccount = guidAccount;
+    _singleton.baserowLineId = baserowLineId;
     _singleton.username = username;
     _singleton.password = password;
     _singleton.personalRecord = personalRecord;
@@ -36,6 +39,7 @@ class CurrentAccount {
   static CurrentAccount arcade({required String username}) {
     _singleton.username = username;
     _singleton.guidAccount = null;
+    _singleton.baserowLineId = null;
     _singleton.password = null;
     _singleton.personalRecord = null;
     _singleton.accountStatus = CurrentAccountStatus.arcade;
@@ -47,6 +51,7 @@ class CurrentAccount {
 
   static CurrentAccount logout() {
     _singleton.guidAccount = null;
+    _singleton.baserowLineId = null;
     _singleton.username = null;
     _singleton.password = null;
     _singleton.personalRecord = null;
@@ -59,6 +64,7 @@ class CurrentAccount {
 
   static CurrentAccount notifyError({required String error}) {
     _singleton.guidAccount = null;
+    _singleton.baserowLineId = null;
     _singleton.username = null;
     _singleton.password = null;
     _singleton.personalRecord = null;
