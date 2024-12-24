@@ -31,8 +31,7 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
       debugPrint("URI: ${response.request?.url.toString()}");
       debugPrint("API called: ${response.body} checking status code...");
       if (response.statusCode != 200) {
-        state =
-            AsyncValue.error("Error calling Mapillary API", StackTrace.current);
+        debugPrint("Error calling Mapillary API");
         continue;
       }
       Map<String, dynamic> rawMapillaryData = jsonDecode(response.body);
@@ -78,7 +77,7 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
 
     final Map<String, String> matchToSave = {
       'ArcadeName': ref.watch(currentAccountProvider).value!.username!,
-      'DateTime': DateTime.now().toIso8601String(),
+      'DateTime': DateTime.now().toUtc().toIso8601String(),
       'MatchLat': realCoordinates.latitude.toStringAsFixed(4),
       'MatchLon': realCoordinates.longitude.toStringAsFixed(4),
       'GuessedLat': guessedCoordinates.latitude.toStringAsFixed(4),
@@ -103,22 +102,5 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
       debugPrint("Saving points of registered account");
       ref.read(currentAccountProvider.notifier).playMatch(points);
     }
-    /*
-        Step necessari in questo metodo:
-        - leggere le coordinate nello stato
-        - leggere le cordinate nel provider della mappa
-        - calcolare la distanza tra le due coordinate
-        - calcolare il punteggio: 
-            2000 se d<100
-            2000-(d-100) se 100<d<2100
-            0 se d>2100
-        - salvare il record del punteggio
-        - se l'utente è registrato:
-            chiamare il metodo playmatch
-        - ritornare il punteggio corrente (forse con valore di ritorno diverso da void?)
-
-        c'è da capire quando fare l'update dell'highscore dell'utente,
-        forse c'è da creare un metodo ad-hoc nell'accountNotifier da chiamare nella schermata di fine partita
-        */
   }
 }

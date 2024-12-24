@@ -70,7 +70,8 @@ class SubmitGuessButton extends ConsumerWidget {
           label: const Text("Submit guess"),
           onTap: () {
             var arcadeName = ref.read(currentAccountProvider).value!.username!;
-            if (ref.watch(matchProvider).value == null) {
+            if (ref.watch(matchProvider).value == null ||
+                ref.watch(matchProvider).isLoading) {
               MoonToast.show(context,
                   variant: MoonToastVariant.inverted,
                   label: const Text('You must see a place before guessing!'));
@@ -103,6 +104,7 @@ class _ResultModalContinueButton extends ConsumerWidget {
 class _ResultModalMap extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("building $this");
     return FlutterMap(
       options: MapOptions(
         initialCenter: ref.read(pickedCoordinatesProvider),
@@ -172,8 +174,9 @@ class MapillaryWebView extends ConsumerWidget {
                       : NavigationActionPolicy.CANCEL;
                 });
           },
-          error: (error, stacktrace) =>
-              const Center(child: MoonCircularLoader()),
+          error: (error, stacktrace) => const Center(
+              child: Text(
+                  "Uh oh! Something went wrong, please bo back and try again")),
           loading: () => const Center(child: MoonCircularLoader()),
         ));
   }
@@ -214,5 +217,92 @@ class MapView extends ConsumerWidget {
             ])
           ],
         ));
+  }
+}
+
+class MatchBackButton extends ConsumerWidget {
+  const MatchBackButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint("Building $this");
+    final currentAccount = ref.read(currentAccountProvider);
+    final currentAccountNotifier = ref.read(currentAccountProvider.notifier);
+    Future<void> backModalBuilder(BuildContext context) {
+      return showMoonModal<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return PopScope(
+            canPop: false,
+            child: OrientationBuilder(builder: (context, orientation) {
+              return MoonModal(
+                child: SizedBox(
+                  height: orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.height - 600
+                      : MediaQuery.of(context).size.height - 100,
+                  width: orientation == Orientation.portrait
+                      ? MediaQuery.of(context).size.width - 100
+                      : MediaQuery.of(context).size.width - 500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Are you sure you want to stop playing?",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          if (currentAccount.value!.guidAccount != null)
+                            Text(
+                              "Your current progress will be lost",
+                              style: Theme.of(context).textTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            )
+                          else
+                            const SizedBox(height: 50),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: MoonOutlinedButton(
+                                  label: const Text("Yes"),
+                                  onTap: () {
+                                    currentAccountNotifier.logout();
+                                    Navigator.of(context)
+                                        .popUntil(ModalRoute.withName("/"));
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: MoonOutlinedButton(
+                                    label: const Text("No"),
+                                    onTap: () =>
+                                        Navigator.of(context).pop(context)),
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
+                ),
+              );
+            }),
+          );
+        },
+      );
+    }
+
+    return Builder(builder: (BuildContext context) {
+      return Align(
+        alignment: Alignment.topLeft,
+        child: MoonButton.icon(
+          icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
+          onTap: () => backModalBuilder(context),
+        ),
+      );
+    });
   }
 }
