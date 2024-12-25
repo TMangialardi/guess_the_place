@@ -75,7 +75,7 @@ class AccountPageLandscape extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Your total score is,",
+                  "Your total score is",
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),

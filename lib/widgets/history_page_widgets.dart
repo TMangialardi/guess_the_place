@@ -73,6 +73,7 @@ class HistoryAccordionLandscape extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Row(children: [
         Expanded(
+            flex: 3,
             child: ClipRRect(
                 clipBehavior: Clip.antiAlias,
                 borderRadius: BorderRadius.circular(10.0),
@@ -81,22 +82,25 @@ class HistoryAccordionLandscape extends StatelessWidget {
                     guessedPosition: guessedPosition))),
         const SizedBox(width: 10),
         Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Nickname:",
-                  style: Theme.of(context).textTheme.headlineSmall),
-              Text(nickname),
-              const SizedBox(height: 10),
-              Text("Date:", style: Theme.of(context).textTheme.headlineSmall),
-              Text(formattedDate),
-              const SizedBox(height: 10),
-              Text("Points:", style: Theme.of(context).textTheme.headlineSmall),
-              Text(points),
-              const SizedBox(height: 10),
-            ],
+          flex: 2,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Nickname:",
+                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(nickname),
+                const SizedBox(height: 20),
+                Text("Date:", style: Theme.of(context).textTheme.headlineSmall),
+                Text(formattedDate),
+                const SizedBox(height: 20),
+                Text("Points:",
+                    style: Theme.of(context).textTheme.headlineSmall),
+                Text(points),
+              ],
+            ),
           ),
         ),
       ]),
