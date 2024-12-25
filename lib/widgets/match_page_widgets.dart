@@ -70,7 +70,7 @@ class SubmitGuessButton extends ConsumerWidget {
         return MoonFilledButton(
           label: const Text("Submit guess"),
           onTap: () {
-            var arcadeName = ref.read(currentAccountProvider).value!.username!;
+            var arcadeName = ref.watch(currentAccountProvider).value!.username!;
             if (ref.watch(matchProvider).value == null ||
                 ref.watch(matchProvider).isLoading) {
               MoonToast.show(context,
@@ -235,8 +235,10 @@ class MatchBackButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isCurrentUserRegistered =
+        ref.watch(currentAccountProvider).value!.guidAccount != null;
     debugPrint("Building $this");
-    final currentAccount = ref.read(currentAccountProvider);
+    final currentAccount = ref.watch(currentAccountProvider);
     final currentAccountNotifier = ref.read(currentAccountProvider.notifier);
     Future<void> backModalBuilder(BuildContext context) {
       return showMoonModal<void>(
@@ -264,7 +266,7 @@ class MatchBackButton extends ConsumerWidget {
                             style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center,
                           ),
-                          if (currentAccount.value!.guidAccount != null)
+                          if (isCurrentUserRegistered)
                             Text(
                               "Your current progress will be lost",
                               style: Theme.of(context).textTheme.headlineSmall,
@@ -280,15 +282,15 @@ class MatchBackButton extends ConsumerWidget {
                                 child: MoonOutlinedButton(
                                   label: const Text("Yes"),
                                   onTap: () {
-                                    currentAccountNotifier.logout();
-                                    if (currentAccount.value!.guidAccount !=
-                                        null) {
+                                    if (isCurrentUserRegistered) {
                                       Navigator.of(context)
                                           .pushNamedAndRemoveUntil(
                                               '/account', (route) => false);
                                     } else {
+                                      currentAccountNotifier.logout();
                                       Navigator.of(context)
-                                          .popUntil(ModalRoute.withName("/"));
+                                          .pushNamedAndRemoveUntil(
+                                              '/', (route) => false);
                                     }
                                   },
                                 ),
