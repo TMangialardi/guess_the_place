@@ -3,29 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/account_page_widgets.dart';
 
-class AccountPage extends ConsumerWidget {
+class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     debugPrint("Building $this");
 
-    var nickname = ref.read(currentAccountProvider).value!.username ?? "";
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
-          ? AccountPagePortrait(nickname)
-          : AccountPageLandscape(nickname);
+          ? const AccountPagePortrait()
+          : const AccountPageLandscape();
     });
   }
 }
 
-class AccountPagePortrait extends StatelessWidget {
-  final String nickname;
-
-  const AccountPagePortrait(this.nickname, {super.key});
+class AccountPagePortrait extends ConsumerWidget {
+  const AccountPagePortrait({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var nickname = ref.watch(currentAccountProvider).value!.username ?? "";
     debugPrint("Building $this");
     return Scaffold(
       body: Padding(
@@ -38,12 +36,13 @@ class AccountPagePortrait extends StatelessWidget {
               children: [
                 Text(
                   "Welcome,",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 30),
                 Text(
                   nickname,
-                  style: Theme.of(context).textTheme.headlineLarge,
+                  style: Theme.of(context).textTheme.displayLarge,
                   textAlign: TextAlign.center,
                 )
               ],
@@ -56,13 +55,12 @@ class AccountPagePortrait extends StatelessWidget {
   }
 }
 
-class AccountPageLandscape extends StatelessWidget {
-  final String nickname;
-
-  const AccountPageLandscape(this.nickname, {super.key});
+class AccountPageLandscape extends ConsumerWidget {
+  const AccountPageLandscape({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var nickname = ref.watch(currentAccountProvider).value!.username ?? "";
     debugPrint("Building $this");
     return Scaffold(
       body: Padding(
@@ -76,12 +74,13 @@ class AccountPageLandscape extends StatelessWidget {
               children: [
                 Text(
                   "Welcome,",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 30),
                 Text(
                   nickname,
-                  style: Theme.of(context).textTheme.headlineLarge,
+                  style: Theme.of(context).textTheme.displayLarge,
                   textAlign: TextAlign.center,
                 )
               ],

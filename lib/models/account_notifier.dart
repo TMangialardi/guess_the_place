@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:guess_the_place/models/user_data.dart';
+import 'package:guess_the_place/providers.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
@@ -139,18 +140,12 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
     state = AsyncValue.data(CurrentAccount.logout());
   }
 
-  Future<void> newGame() async =>
-      state = AsyncValue.data(CurrentAccount.newGame());
-
-  Future<void> playMatch(int points) async =>
-      state = AsyncValue.data(CurrentAccount.playMatch(points));
-
   Future<void> updateHighScore() async {
     if (state.value!.guidAccount != null &&
-        state.value!.currentScore! > state.value!.personalRecord!) {
+        ref.watch(currentScoreProvider) > state.value!.personalRecord!) {
       debugPrint("Updating the personal high score...");
       final Map<String, String> newScore = {
-        'PersonalRecord': state.value!.currentScore.toString(),
+        'PersonalRecord': ref.watch(currentScoreProvider).toString(),
       };
       debugPrint(jsonEncode(newScore));
       final update = await http.patch(

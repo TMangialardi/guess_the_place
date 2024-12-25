@@ -96,9 +96,8 @@ class _ResultModalContinueButton extends ConsumerWidget {
     return MoonOutlinedButton(
       onTap: () {
         if (currentAccount.value!.guidAccount != null &&
-            currentAccount.value!.remainingMatches == 0) {
+            ref.watch(remainingMatchesProvider) == 0) {
           ref.read(currentAccountProvider.notifier).updateHighScore();
-          Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const FinalResultPage(),
           ));
@@ -282,8 +281,15 @@ class MatchBackButton extends ConsumerWidget {
                                   label: const Text("Yes"),
                                   onTap: () {
                                     currentAccountNotifier.logout();
-                                    Navigator.of(context)
-                                        .popUntil(ModalRoute.withName("/"));
+                                    if (currentAccount.value!.guidAccount !=
+                                        null) {
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              '/account', (route) => false);
+                                    } else {
+                                      Navigator.of(context)
+                                          .popUntil(ModalRoute.withName("/"));
+                                    }
                                   },
                                 ),
                               ),

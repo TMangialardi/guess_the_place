@@ -17,7 +17,8 @@ class GoBackWidget extends ConsumerWidget {
           label: const Text("Go back"),
           trailing: const Icon(MoonIcons.controls_chevron_left_small_32_light),
           onTap: () {
-            Navigator.of(context).popUntil(ModalRoute.withName("/account"));
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/account', (route) => false);
           },
         ),
       ],

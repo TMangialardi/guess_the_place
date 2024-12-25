@@ -47,3 +47,13 @@ final latestResultProvider = StateProvider.autoDispose((ref) {
   debugPrint("Building latestResultProvider");
   return 0;
 });
+
+final remainingMatchesProvider = StateProvider((ref) {
+  debugPrint("Building remainingMatchesProvider");
+  return 0;
+});
+
+final currentScoreProvider = StateProvider((ref) {
+  debugPrint("Building currentScoreProvider");
+  return 0;
+});

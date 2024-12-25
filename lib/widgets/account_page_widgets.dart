@@ -21,7 +21,8 @@ class OptionsWidget extends ConsumerWidget {
           trailing: const Icon(MoonIcons.controls_chevron_left_small_32_light),
           onTap: () {
             ref.read(currentAccountProvider.notifier).logout();
-            Navigator.of(context).popUntil(ModalRoute.withName("/"));
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', (route) => false);
           },
         ),
         MoonMenuItem(
@@ -32,7 +33,8 @@ class OptionsWidget extends ConsumerWidget {
             trailing:
                 const Icon(MoonIcons.controls_chevron_right_small_32_light),
             onTap: () {
-              ref.read(currentAccountProvider.notifier).newGame();
+              ref.read(currentScoreProvider.notifier).state = 0;
+              ref.read(remainingMatchesProvider.notifier).state = 5;
               ref.read(matchProvider.notifier).newMatch();
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const MatchPage(),

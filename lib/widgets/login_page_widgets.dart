@@ -12,8 +12,22 @@ class LoginInput extends ConsumerStatefulWidget {
 
 class _LoginInputState extends ConsumerState<LoginInput> {
   bool _hidePassword = true;
-  final TextEditingController _textController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  TextEditingController? _textController;
+  TextEditingController? _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController(text: "");
+    _passwordController = TextEditingController(text: "");
+  }
+
+  @override
+  void dispose() {
+    _textController?.dispose();
+    _passwordController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +44,16 @@ class _LoginInputState extends ConsumerState<LoginInput> {
               ? "Username is reuquired"
               : null,
           trailing: GestureDetector(
-            onTap: () => _textController.clear(),
+            onTap: () => _textController!.clear(),
             child: const Icon(MoonIcons.controls_close_small_24_light),
           ),
           onChanged: (value) {
             debugPrint(
-                "Current user-pass value: ${_textController.text}||${_passwordController.text}");
+                "Current user-pass value: ${_textController!.text}||${_passwordController!.text}");
             ref.read(loginUsernameProvider.notifier).state =
-                _textController.text;
+                _textController!.text;
             ref.read(loginPasswordProvider.notifier).state =
-                _passwordController.text;
+                _passwordController!.text;
           }),
       MoonFormTextInput(
           textInputSize: MoonTextInputSize.xl,
@@ -60,11 +74,11 @@ class _LoginInputState extends ConsumerState<LoginInput> {
           ),
           onChanged: (value) {
             debugPrint(
-                "Current user-pass value: ${_textController.text}||${_passwordController.text}");
+                "Current user-pass value: ${_textController!.text}||${_passwordController!.text}");
             ref.read(loginUsernameProvider.notifier).state =
-                _textController.text;
+                _textController!.text;
             ref.read(loginPasswordProvider.notifier).state =
-                _passwordController.text;
+                _passwordController!.text;
           })
     ]);
   }

@@ -100,7 +100,8 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
 
     if (ref.watch(currentAccountProvider).value!.guidAccount != null) {
       debugPrint("Saving points of registered account");
-      ref.read(currentAccountProvider.notifier).playMatch(points);
+      ref.watch(currentScoreProvider.notifier).state += points;
+      ref.watch(remainingMatchesProvider.notifier).state -= 1;
     }
   }
 }

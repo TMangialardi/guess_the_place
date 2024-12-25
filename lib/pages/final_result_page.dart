@@ -9,8 +9,7 @@ class FinalResultPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
-    final totalScore =
-        ref.read(currentAccountProvider).value!.currentScore.toString();
+    final totalScore = ref.watch(currentScoreProvider).toString();
     return OrientationBuilder(builder: (context, orientation) {
       return orientation == Orientation.portrait
           ? FinalResultPagePortrait(totalScore)
@@ -44,7 +43,7 @@ class FinalResultPagePortrait extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                   totalScore,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.displayLarge,
                   textAlign: TextAlign.center,
                 )
               ],
@@ -77,13 +76,13 @@ class AccountPageLandscape extends StatelessWidget {
               children: [
                 Text(
                   "Your total score is,",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30),
                 Text(
                   totalScore,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.displayLarge,
                   textAlign: TextAlign.center,
                 )
               ],
