@@ -238,7 +238,6 @@ class MatchBackButton extends ConsumerWidget {
     final isCurrentUserRegistered =
         ref.watch(currentAccountProvider).value!.guidAccount != null;
     debugPrint("Building $this");
-    final currentAccount = ref.watch(currentAccountProvider);
     final currentAccountNotifier = ref.read(currentAccountProvider.notifier);
     Future<void> backModalBuilder(BuildContext context) {
       return showMoonModal<void>(

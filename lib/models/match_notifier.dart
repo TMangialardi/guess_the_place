@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/game_match.dart';
+import 'package:guess_the_place/models/latest_matches_data.dart';
 import 'package:guess_the_place/models/mapillary_data.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:latlong2/latlong.dart';
@@ -93,9 +94,24 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
           'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE',
           'Content-Type': 'application/json'
         });
+    debugPrint(creation.body);
     if (creation.statusCode != 200) {
       debugPrint("Error saving the match data");
-      debugPrint(creation.body);
+    } else {
+      debugPrint("Match saved successfully");
+      Map<String, dynamic> rawMatchData = jsonDecode(creation.body);
+      final matchData = MatchResults.fromJson(rawMatchData);
+
+      final removal = await http.delete(
+          Uri.parse(
+              "https://api.baserow.io/api/database/rows/table/400571/${(matchData.id! - 100)}/"),
+          body: json.encode(matchToSave),
+          headers: {'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE'});
+      if (removal.statusCode != 204) {
+        debugPrint("Error removing old match data");
+      } else {
+        debugPrint("Old match removed successfully");
+      }
     }
 
     if (ref.watch(currentAccountProvider).value!.guidAccount != null) {
