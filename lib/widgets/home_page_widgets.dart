@@ -57,7 +57,7 @@ class LogoWidget extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
         child: Image.asset(
-          'assets/logo/guesstheplace.jpg',
+          'assets/logo/guesstheplace.png',
           fit: BoxFit.cover,
         ),
       ),
