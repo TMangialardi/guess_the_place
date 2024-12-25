@@ -1,8 +1,7 @@
 name: guess_the_place
-description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: "A geoguessr-inspired game."
+
+publish_to: 'none' # Remove this line to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -31,25 +30,27 @@ dependencies:
   flutter:
     sdk: flutter
 
-  moon_design: ^1.0.7
+  moon_design: ^1.0.7 #to give to the app a non-platform-specific UI
 
-  flutter_riverpod: ^2.6.1
+  flutter_riverpod: ^2.6.1 #to manage the state and the interaction between pages and widgets
 
-  flutter_markdown: ^0.7.4+3
+  flutter_markdown: ^0.7.4+3 #to render the text document in the about page
 
-  http: ^1.2.2
+  http: ^1.2.2 #to make the API calls
 
-  json_serializable: ^6.9.0
+  json_serializable: ^6.9.0 #to parse the JSON documents obtained from API calls
 
-  json_annotation: ^4.9.0
+  json_annotation: ^4.9.0 #to parse the JSON documents obtained from API calls
   
-  crypto: ^3.0.6
+  crypto: ^3.0.6 #to manage the SHA-1 encryption of the registered users' passwords
   
-  flutter_inappwebview: ^6.1.5
+  flutter_inappwebview: ^6.1.5 #to show Mapillary places inside the app
 
-  flutter_map: ^7.0.2
+  flutter_map: ^7.0.2 #to add OpenStreetMap in various widgets
 
-  latlong2: ^0.9.1
+  latlong2: ^0.9.1 #to easily manage geographical coordinates
+
+  intl: ^0.20.1 #to improve the visualization of dates inside the history page
   
 dev_dependencies:
   flutter_test:

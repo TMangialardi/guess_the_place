@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/account_notifier.dart';
 import 'package:guess_the_place/models/current_account.dart';
 import 'package:guess_the_place/models/game_match.dart';
+import 'package:guess_the_place/models/latest_matches_data.dart';
 import 'package:guess_the_place/models/match_notifier.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:http/http.dart' as http;
 
 final darkThemeProvider = StateProvider.autoDispose((ref) {
   debugPrint("Building darkThemeProvider");
@@ -56,4 +60,20 @@ final remainingMatchesProvider = StateProvider((ref) {
 final currentScoreProvider = StateProvider((ref) {
   debugPrint("Building currentScoreProvider");
   return 0;
+});
+
+final matchHistoryProvider = FutureProvider((ref) async {
+  final response = await http.get(
+      Uri.parse(
+          "https://api.baserow.io/api/database/rows/table/400571/?user_field_names=true&order_by=-DateTime"),
+      headers: {'Authorization': 'Token Y2Uuiqq1rX36hHPWnd3A5dK3Vo6D9kwE'});
+
+  if (response.statusCode != 200) {
+    throw Exception("Error getting match history data");
+  }
+
+  Map<String, dynamic> rawHistory = jsonDecode(response.body);
+  var history = LatestMatchesData.fromJson(rawHistory);
+
+  return history.results;
 });

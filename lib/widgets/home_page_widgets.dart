@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/pages/about_page.dart';
 import 'package:guess_the_place/pages/arcade_page.dart';
+import 'package:guess_the_place/pages/history_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:moon_design/moon_design.dart';
@@ -95,18 +96,25 @@ class BottomLineWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MoonOutlinedButton(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AboutPage(),
-                ));
-              },
-              label: const Text("About")),
-          MoonOutlinedButton(
-              onTap: () {
-                debugPrint("Leaderboard pressed");
-              },
-              label: const Text("Leaderboard")),
+          Expanded(
+            child: MoonOutlinedButton(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AboutPage(),
+                  ));
+                },
+                label: const Text("About")),
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: MoonOutlinedButton(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const HistoryPage(),
+                  ));
+                },
+                label: const Text("History")),
+          ),
         ]);
   }
 }
