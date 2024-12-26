@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_the_place/pages/about_page.dart';
+import 'package:guess_the_place/pages/leaderboard_page.dart';
 import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:moon_design/moon_design.dart';
@@ -48,7 +48,7 @@ class OptionsWidget extends ConsumerWidget {
                 const Icon(MoonIcons.controls_chevron_right_small_32_light),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AboutPage(),
+                builder: (context) => const LeaderboardPage(),
               ));
             }),
       ],

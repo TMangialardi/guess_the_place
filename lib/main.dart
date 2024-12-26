@@ -5,6 +5,7 @@ import 'package:guess_the_place/pages/account_page.dart';
 import 'package:guess_the_place/pages/arcade_page.dart';
 import 'package:guess_the_place/pages/final_result_page.dart';
 import 'package:guess_the_place/pages/history_page.dart';
+import 'package:guess_the_place/pages/leaderboard_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
@@ -64,6 +65,7 @@ class MyApp extends ConsumerWidget {
         '/match': (context) => const MatchPage(),
         '/result': (context) => const FinalResultPage(),
         '/history': (context) => const HistoryPage(),
+        '/leaderboard': (context) => const LeaderboardPage(),
       },
       theme: darkThemeEnabled ? darkTheme : lightTheme,
       home: HomePage(darkThemeEnabled: darkThemeEnabled),
