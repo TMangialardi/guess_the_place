@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guess_the_place/pages/history_page.dart';
 import 'package:guess_the_place/pages/leaderboard_page.dart';
 import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
@@ -49,6 +50,17 @@ class OptionsWidget extends ConsumerWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const LeaderboardPage(),
+              ));
+            }),
+        MoonMenuItem(
+            leading: const Icon(MoonIcons.time_time_32_regular),
+            content: const Text("See the latest matches played"),
+            label: const Text("History"),
+            trailing:
+                const Icon(MoonIcons.controls_chevron_right_small_32_light),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const HistoryPage(),
               ));
             }),
       ],
