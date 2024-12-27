@@ -1,24 +1,53 @@
 # Welcome to Guess the Place!
 
-**Guess the Place** is a small game realized with Flutter, Inspired by GeoGuessr. You can try to guess the geographical location of a random image, by recognizing elements like road signs, fauna and flora. There are two different game modes:
+![Guess the Place logo](resource:assets/logo/guesstheplace.png)
 
- - Log in and play
- - Arcade mode
+**Guess the Place** is a small game realized with Flutter, Inspired by GeoGuessr. You can try to guess the geographical location of a random place in the world, by recognizing elements like road signs, fauna and flora. There are two different game modes.
 
-## Log in and play
+ - **Log in and play**: This game mode is reserved for registered users. Don't worry, you can quickly create an account inside the app, only a nickname and a password are required. You will then play a game composed by 5 matches. The closer you will get to the actual position of the place in every, the bigger will be your score at the end of the game. You will be able to see your highscore in a leaderboard, where you will be able to beat the other players.
+ 
+ - **Arcade mode**: In this game mode, you won't need to create an account. You'll have to provide just a nickname to save your guesses. You will able to play as many matches as you want, without a time limit, however you won't be able to see your high score in the leaderboard. Your guesses will still be shown in a match history, along with the guesses of the other registered and unregistered players. However, there won't be a ranking for unregistered players. 
 
-##### *Create an account and beat the high score!*
 
-In this game mode, you can create a minimal account (only a nickname and a password are required). You will then play a match composed by 5 rounds. In every round you'll have to guess a different place, by picking its coordinates in a map. The closer you will get, the bigger will be your score. Your high score will be shown in a leaderboard, exclusive for registered players.
+## How to play
 
-## Arcade mode
 
-##### *Unlimited matches to train your skills*
+In every match you will see a randomly picked place in the world. The difficulty of the match may vary: in some cases you will see a spherical image, and you might also be able to move to another picture and explore the place from another point of view, while sometimes you will be able to see just a two-dimensional picture. The kinds of places that you will see will also vary: from rural mountain roads without asphalt to highways, from urban centers to remote countryside areas, ans sometimes even pictures taken from a plane, from a boat or inside a building.
 
-In this game mode, you won't require to create an account and you will able to play as many matches as you want, however you won't be able to see your high score in the leaderboard. You will still be able to see the most recent match scores of all the players, including your scores.
+You will then have to search for clues in what you are seeing: vehicle models, license plates, road signage, vegetation, animals, sand colour... Don't worry, you can spend as much time as you want. When you feel ready to guess a place, you can mark it in the map and submit your guess. You will immediately see your score and the actual location of the place you explored.
+
 
 ## Credits
 
-Street view imagery provided by Mapillary.
 
-Maps provided by OpenStreetMaps.
+Street view imagery: [Mapillary](https://www.mapillary.com)
+
+Maps: [OpenStreetMaps](https://www.openstreetmap.org)
+
+Database and related APIs: [Baserow](https://baserow.io/)
+
+UI elements: [Moon Design System](https://flutter.moon.io/)
+
+
+### *Flutter libraries*
+
+
+[moon_design](https://pub.dev/packages/moon_design)  to give to the app a non-platform-specific UI
+
+[flutter_riverpod](https://pub.dev/packages/flutter_riverpod) to manage the state and the interaction between pages and widgets
+
+[flutter_markdown](https://pub.dev/packages/flutter_markdown) to render the text document you are reading right now
+
+[http](https://pub.dev/packages/http) to make the API calls
+
+[json_serializable](https://pub.dev/packages/json_serializable) and [json_annotation](https://pub.dev/packages/json_annotation) to parse the JSON documents obtained from API calls
+
+[crypto](https://pub.dev/packages/crypto) to manage the SHA-1 encryption of the registered users' passwords
+
+[flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) to show Mapillary places inside the app
+
+[flutter_map](https://pub.dev/packages/flutter_map) to add OpenStreetMap maps in various widgets
+
+[latlong2](https://pub.dev/packages/latlong2) to easily manage geographical coordinates
+
+[intl](https://pub.dev/packages/intl) to improve the visualization of dates inside the history page
