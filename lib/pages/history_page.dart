@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/providers.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:guess_the_place/widgets/history_page_widgets.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:moon_design/moon_design.dart';
@@ -15,24 +16,13 @@ class HistoryPage extends ConsumerWidget {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
       return Padding(
         padding: orientation == Orientation.portrait
-            ? const EdgeInsets.fromLTRB(15, 55, 15, 25)
-            : const EdgeInsets.fromLTRB(50, 30, 50, 15),
+            ? CommonParameters.portraitEdgeInsets
+            : CommonParameters.landscapeEdgeInsets,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Row(
-            children: [
-              MoonButton.icon(
-                icon: Icon(orientation == Orientation.portrait
-                    ? MoonIcons.controls_chevron_left_32_regular
-                    : MoonIcons.controls_chevron_left_small_16_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ],
-          ),
-          Text(
-            "Latest 100 matches",
-            style: Theme.of(context).textTheme.headlineMedium,
-            textAlign: TextAlign.center,
-          ),
+          orientation == Orientation.portrait
+              ? const BackButtonPortrait()
+              : const BackButtonLandscape(),
+          const HistoryText(),
           const SizedBox(height: 20),
           history.when(
               skipLoadingOnRefresh: false,
@@ -54,27 +44,16 @@ class HistoryPage extends ConsumerWidget {
                                     .squircleBorderRadius(context),
                               ),
                             ),
-                            child: (orientation == Orientation.portrait)
-                                ? HistoryAccordionPortrait(
-                                    nickname: list[index].arcadeName!,
-                                    date: list[index].dateTime!,
-                                    points: list[index].points!,
-                                    actualPosition: LatLng(
-                                        double.parse(list[index].matchLat!),
-                                        double.parse(list[index].matchLon!)),
-                                    guessedPosition: LatLng(
-                                        double.parse(list[index].guessedLat!),
-                                        double.parse(list[index].guessedLon!)))
-                                : HistoryAccordionLandscape(
-                                    nickname: list[index].arcadeName!,
-                                    date: list[index].dateTime!,
-                                    points: list[index].points!,
-                                    actualPosition: LatLng(
-                                        double.parse(list[index].matchLat!),
-                                        double.parse(list[index].matchLon!)),
-                                    guessedPosition: LatLng(
-                                        double.parse(list[index].guessedLat!),
-                                        double.parse(list[index].guessedLon!))),
+                            child: HistoryAccordion(
+                                nickname: list[index].arcadeName!,
+                                date: list[index].dateTime!,
+                                points: list[index].points!,
+                                actualPosition: LatLng(
+                                    double.parse(list[index].matchLat!),
+                                    double.parse(list[index].matchLon!)),
+                                guessedPosition: LatLng(
+                                    double.parse(list[index].guessedLat!),
+                                    double.parse(list[index].guessedLon!))),
                           );
                         }),
                   ),

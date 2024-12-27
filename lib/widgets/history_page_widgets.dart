@@ -4,6 +4,40 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:moon_design/moon_design.dart';
 
+class HistoryAccordion extends StatelessWidget {
+  final String nickname;
+  final String date;
+  final String points;
+  final LatLng actualPosition;
+  final LatLng guessedPosition;
+  const HistoryAccordion(
+      {super.key,
+      required this.nickname,
+      required this.date,
+      required this.points,
+      required this.actualPosition,
+      required this.guessedPosition});
+
+  @override
+  Widget build(BuildContext context) {
+    return OrientationBuilder(builder: (context, orientation) {
+      return orientation == Orientation.portrait
+          ? HistoryAccordionPortrait(
+              nickname: nickname,
+              date: date,
+              points: points,
+              actualPosition: actualPosition,
+              guessedPosition: guessedPosition)
+          : HistoryAccordionLandscape(
+              nickname: nickname,
+              date: date,
+              points: points,
+              actualPosition: actualPosition,
+              guessedPosition: guessedPosition);
+    });
+  }
+}
+
 class HistoryAccordionPortrait extends StatelessWidget {
   final String nickname;
   final String date;
@@ -152,6 +186,20 @@ class HistoryMap extends StatelessWidget {
               color: const Color.fromARGB(255, 7, 105, 255))
         ])
       ],
+    );
+  }
+}
+
+class HistoryText extends StatelessWidget {
+  const HistoryText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Buildin $this");
+    return Text(
+      "Latest 100 matches",
+      style: Theme.of(context).textTheme.headlineMedium,
+      textAlign: TextAlign.center,
     );
   }
 }

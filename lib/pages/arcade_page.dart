@@ -4,6 +4,7 @@ import 'package:guess_the_place/models/current_account.dart';
 import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/arcade_page_widgets.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:moon_design/moon_design.dart';
 
 class ArcadePage extends StatelessWidget {
@@ -40,24 +41,15 @@ class ArcadePagePortrait extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
+        padding: CommonParameters.portraitEdgeInsets,
         child: Center(
           child: Column(children: [
-            Row(children: [
-              MoonButton.icon(
-                icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ]),
+            const BackButtonPortrait(),
             Expanded(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  "Enter a nickname and play without creating an account",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  textAlign: TextAlign.center,
-                ),
+                const ArcadeDescription(),
                 const Column(
                   children: [
                     ArcadeLoginInput(),
@@ -95,20 +87,14 @@ class ArcadePageLandscape extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
+        padding: CommonParameters.landscapeEdgeInsets,
         child: ConstrainedBox(
           constraints:
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(children: [
-                MoonButton.icon(
-                  icon: const Icon(
-                      MoonIcons.controls_chevron_left_small_16_regular),
-                  onTap: () => Navigator.pop(context),
-                )
-              ]),
+              const BackButtonLandscape(),
               Expanded(child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
                   child: ConstrainedBox(
@@ -117,11 +103,7 @@ class ArcadePageLandscape extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
-                          "Enter a nickname and play without creating an account",
-                          style: Theme.of(context).textTheme.headlineMedium,
-                          textAlign: TextAlign.center,
-                        ),
+                        const ArcadeDescription(),
                         const Row(
                           children: [
                             Expanded(

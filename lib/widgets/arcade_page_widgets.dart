@@ -47,3 +47,17 @@ class ArcadeLoginButton extends ConsumerWidget {
         });
   }
 }
+
+class ArcadeDescription extends StatelessWidget {
+  const ArcadeDescription({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Building $this");
+    return Text(
+      "Enter a nickname and play without creating an account",
+      style: Theme.of(context).textTheme.headlineMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+}

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
 import 'package:guess_the_place/pages/account_page.dart';
 import 'package:guess_the_place/providers.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:guess_the_place/widgets/login_page_widgets.dart';
 import 'package:moon_design/moon_design.dart';
 
@@ -38,24 +39,15 @@ class LoginPagePortrait extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
+        padding: CommonParameters.portraitEdgeInsets,
         child: Center(
           child: Column(children: [
-            Row(children: [
-              MoonButton.icon(
-                icon: const Icon(MoonIcons.controls_chevron_left_32_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ]),
+            const BackButtonPortrait(),
             Expanded(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  "Enter your credentials to login or create an account",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  textAlign: TextAlign.center,
-                ),
+                const LoginText(),
                 const Column(
                   children: [
                     LoginInput(),
@@ -100,17 +92,11 @@ class LoginPageLandscape extends ConsumerWidget {
     });
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
+        padding: CommonParameters.landscapeEdgeInsets,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(children: [
-              MoonButton.icon(
-                icon: const Icon(
-                    MoonIcons.controls_chevron_left_small_16_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ]),
+            const BackButtonLandscape(),
             Expanded(child: LayoutBuilder(builder: (context, constraints) {
               return SingleChildScrollView(
                 child: ConstrainedBox(
@@ -118,11 +104,7 @@ class LoginPageLandscape extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        "Enter your credentials to login or create an account",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        textAlign: TextAlign.center,
-                      ),
+                      const LoginText(),
                       const Row(
                         children: [
                           Expanded(

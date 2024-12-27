@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:guess_the_place/widgets/match_page_widgets.dart';
 
 class MatchPage extends StatelessWidget {
@@ -25,7 +26,7 @@ class MatchPagePortrait extends StatelessWidget {
       canPop: false,
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.fromLTRB(15, 55, 15, 25),
+        padding: CommonParameters.portraitEdgeInsets,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           MatchBackButton(),
           Expanded(
@@ -53,7 +54,7 @@ class MatchPageLandscape extends StatelessWidget {
       canPop: false,
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.fromLTRB(50, 30, 50, 15),
+          padding: CommonParameters.landscapeEdgeInsets,
           child: Center(
             child: Column(children: [
               MatchBackButton(),

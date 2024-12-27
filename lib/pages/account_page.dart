@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/account_page_widgets.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -29,26 +30,11 @@ class AccountPagePortrait extends ConsumerWidget {
       canPop: false,
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
+          padding: CommonParameters.portraitEdgeInsets,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Welcome,",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 30),
-                  Text(
-                    nickname,
-                    style: Theme.of(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
+              WelcomeColumn(nickname: nickname),
               const OptionsWidget()
             ],
           ),
@@ -69,27 +55,11 @@ class AccountPageLandscape extends ConsumerWidget {
       canPop: false,
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
+          padding: CommonParameters.landscapeEdgeInsets,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Welcome,",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 30),
-                  Text(
-                    nickname,
-                    style: Theme.of(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              )),
+              Expanded(child: WelcomeColumn(nickname: nickname)),
               const SizedBox(width: 50),
               const Expanded(
                 child: OptionsWidget(),

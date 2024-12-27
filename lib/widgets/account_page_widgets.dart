@@ -67,3 +67,29 @@ class OptionsWidget extends ConsumerWidget {
     );
   }
 }
+
+class WelcomeColumn extends StatelessWidget {
+  const WelcomeColumn({super.key, required this.nickname});
+  final String nickname;
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Building $this");
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Welcome,",
+          style: Theme.of(context).textTheme.headlineMedium,
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 30),
+        Text(
+          nickname,
+          style: Theme.of(context).textTheme.displayLarge,
+          textAlign: TextAlign.center,
+        )
+      ],
+    );
+  }
+}

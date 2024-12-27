@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:guess_the_place/widgets/home_page_widgets.dart';
 
 class HomePage extends ConsumerWidget {
@@ -28,7 +29,7 @@ class HomePagePortrait extends StatelessWidget {
     debugPrint("Building $this");
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 55, 15, 25),
+        padding: CommonParameters.portraitEdgeInsets,
         child: Center(
           child: Column(children: [
             DarkModeSwitchWidget(darkThemeEnabled),
@@ -55,7 +56,7 @@ class HomePageLandscape extends StatelessWidget {
     debugPrint("Building $this");
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(50, 30, 50, 15),
+        padding: CommonParameters.landscapeEdgeInsets,
         child: Center(
           child: Column(children: [
             DarkModeSwitchWidget(darkThemeEnabled),

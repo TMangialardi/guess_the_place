@@ -123,3 +123,17 @@ class RegisterButton extends ConsumerWidget {
         });
   }
 }
+
+class LoginText extends StatelessWidget {
+  const LoginText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Building $this");
+    return Text(
+      "Enter your credentials to login or create an account",
+      style: Theme.of(context).textTheme.headlineMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+}

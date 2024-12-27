@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/providers.dart';
-import 'package:moon_design/moon_design.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 
 class AboutPage extends ConsumerWidget {
   const AboutPage({super.key});
@@ -14,19 +14,12 @@ class AboutPage extends ConsumerWidget {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
       return Padding(
         padding: orientation == Orientation.portrait
-            ? const EdgeInsets.fromLTRB(15, 55, 15, 25)
-            : const EdgeInsets.fromLTRB(50, 30, 50, 15),
+            ? CommonParameters.portraitEdgeInsets
+            : CommonParameters.landscapeEdgeInsets,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Row(
-            children: [
-              MoonButton.icon(
-                icon: Icon(orientation == Orientation.portrait
-                    ? MoonIcons.controls_chevron_left_32_regular
-                    : MoonIcons.controls_chevron_left_small_16_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ],
-          ),
+          orientation == Orientation.portrait
+              ? const BackButtonPortrait()
+              : const BackButtonLandscape(),
           Expanded(
               child: Markdown(
                   shrinkWrap: true,

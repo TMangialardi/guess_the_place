@@ -51,7 +51,7 @@ dependencies:
   latlong2: ^0.9.1 #to easily manage geographical coordinates
 
   intl: ^0.20.1 #to improve the visualization of dates inside the history page
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

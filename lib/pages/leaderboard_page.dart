@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:guess_the_place/models/leaderboard_data.dart';
 import 'package:guess_the_place/providers.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
+import 'package:guess_the_place/widgets/leaderboard_page_widgets.dart';
 import 'package:moon_design/moon_design.dart';
 
 class LeaderboardPage extends ConsumerWidget {
@@ -14,25 +15,14 @@ class LeaderboardPage extends ConsumerWidget {
     return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
       return Padding(
         padding: orientation == Orientation.portrait
-            ? const EdgeInsets.fromLTRB(15, 55, 15, 25)
-            : const EdgeInsets.fromLTRB(50, 30, 50, 15),
+            ? CommonParameters.portraitEdgeInsets
+            : CommonParameters.landscapeEdgeInsets,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Row(
-            children: [
-              MoonButton.icon(
-                icon: Icon(orientation == Orientation.portrait
-                    ? MoonIcons.controls_chevron_left_32_regular
-                    : MoonIcons.controls_chevron_left_small_16_regular),
-                onTap: () => Navigator.pop(context),
-              )
-            ],
-          ),
+          orientation == Orientation.portrait
+              ? const BackButtonPortrait()
+              : const BackButtonLandscape(),
           const SizedBox(height: 10),
-          Text(
-            "Top 100 players",
-            style: Theme.of(context).textTheme.headlineMedium,
-            textAlign: TextAlign.center,
-          ),
+          const LeaderboardText(),
           leaderboard.when(
               skipLoadingOnRefresh: false,
               data: (data) => Expanded(
@@ -43,8 +33,8 @@ class LeaderboardPage extends ConsumerWidget {
                           : MediaQuery.of(context).size.width - 100,
                       rowSize: MoonTableRowSize.xl,
                       rowGap: 5,
-                      header: _generateTableHeader(),
-                      rows: _generateTableRows(data),
+                      header: LeaderboardHelper.generateTableHeader(),
+                      rows: LeaderboardHelper.generateTableRows(data),
                     ),
                   ),
               error: (error, stacktrace) => const Expanded(
@@ -58,70 +48,5 @@ class LeaderboardPage extends ConsumerWidget {
         ]),
       );
     }));
-  }
-
-  List<MoonTableRow> _generateTableRows(List<LeaderboardResults>? data) {
-    return List.generate(data!.length, (int index) {
-      if (index == 0) {
-        return MoonTableRow(
-          cells: [
-            const Text("🥇"),
-            Text(
-              data[index].username!,
-              style: const TextStyle(color: Color.fromARGB(255, 212, 175, 55)),
-            ),
-            Text(data[index].personalRecord!,
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 212, 175, 55))),
-          ],
-        );
-      }
-      if (index == 1) {
-        return MoonTableRow(
-          cells: [
-            const Text("🥈"),
-            Text(data[index].username!,
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 192, 192, 192))),
-            Text(data[index].personalRecord!,
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 192, 192, 192))),
-          ],
-        );
-      }
-      if (index == 2) {
-        return MoonTableRow(
-          cells: [
-            const Text("🥉"),
-            Text(data[index].username!,
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 205, 127, 50))),
-            Text(data[index].personalRecord!,
-                style:
-                    const TextStyle(color: Color.fromARGB(255, 205, 127, 50))),
-          ],
-        );
-      }
-      return MoonTableRow(
-        cells: [
-          Text((index + 1).toString()),
-          Text(data[index].username!),
-          Text(data[index].personalRecord!),
-        ],
-      );
-    });
-  }
-
-  MoonTableHeader _generateTableHeader() {
-    final List<String> columnNames = ['Position', 'Nickname', 'Highscore'];
-    return MoonTableHeader(
-      columns: List.generate(
-        3,
-        (int index) => MoonTableColumn(
-          showSortingIcon: false,
-          cell: Text(columnNames[index]),
-        ),
-      ),
-    );
   }
 }
