@@ -43,7 +43,7 @@ final matchProvider = AsyncNotifierProvider<MatchNotifier, GameMatch?>(() {
   return MatchNotifier();
 });
 
-final pickedCoordinatesProvider = StateProvider.autoDispose<LatLng>((ref) {
+final pickedCoordinatesProvider = StateProvider<LatLng>((ref) {
   debugPrint("Building pickedCoordinatesProvider");
   return const LatLng(43.6841, 13.2433);
 });

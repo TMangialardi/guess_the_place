@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:moon_design/moon_design.dart';
 
 class HistoryAccordion extends StatelessWidget {
   final String nickname;
@@ -76,9 +75,13 @@ class HistoryAccordionPortrait extends StatelessWidget {
               child: ClipRRect(
                   clipBehavior: Clip.antiAlias,
                   borderRadius: BorderRadius.circular(10.0),
-                  child: HistoryMap(
-                      actualPosition: actualPosition,
-                      guessedPosition: guessedPosition)))
+                  child: CommonMapWidget(
+                    center: guessedPosition,
+                    markers: CommonMapWidget.markerMaker(
+                        guess: guessedPosition, actual: actualPosition),
+                    polyline: CommonMapWidget.polylineMaker(
+                        guess: guessedPosition, actual: actualPosition),
+                  )))
         ],
       ),
     );
@@ -111,9 +114,13 @@ class HistoryAccordionLandscape extends StatelessWidget {
             child: ClipRRect(
                 clipBehavior: Clip.antiAlias,
                 borderRadius: BorderRadius.circular(10.0),
-                child: HistoryMap(
-                    actualPosition: actualPosition,
-                    guessedPosition: guessedPosition))),
+                child: CommonMapWidget(
+                  center: guessedPosition,
+                  markers: CommonMapWidget.markerMaker(
+                      guess: guessedPosition, actual: actualPosition),
+                  polyline: CommonMapWidget.polylineMaker(
+                      guess: guessedPosition, actual: actualPosition),
+                ))),
         const SizedBox(width: 10),
         Expanded(
           flex: 2,
@@ -138,54 +145,6 @@ class HistoryAccordionLandscape extends StatelessWidget {
           ),
         ),
       ]),
-    );
-  }
-}
-
-class HistoryMap extends StatelessWidget {
-  final LatLng actualPosition;
-  final LatLng guessedPosition;
-  const HistoryMap(
-      {super.key, required this.actualPosition, required this.guessedPosition});
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint("building $this");
-    return FlutterMap(
-      options: MapOptions(
-        initialCenter: guessedPosition,
-        initialZoom: 3.0,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        ),
-        MarkerLayer(markers: [
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: guessedPosition,
-            child: const Icon(
-              MoonIcons.maps_location_32_regular,
-              color: Color.fromARGB(255, 255, 7, 7),
-            ),
-          ),
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: actualPosition,
-            child: const Icon(
-              MoonIcons.maps_location_32_regular,
-              color: Color.fromARGB(255, 7, 155, 7),
-            ),
-          ),
-        ]),
-        PolylineLayer(polylines: [
-          Polyline(
-              points: [guessedPosition, actualPosition],
-              color: const Color.fromARGB(255, 7, 105, 255))
-        ])
-      ],
     );
   }
 }

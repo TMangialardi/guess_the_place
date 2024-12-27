@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/pages/final_result_page.dart';
 import 'package:guess_the_place/providers.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:moon_design/moon_design.dart';
 
 class SubmitGuessButton extends ConsumerWidget {
@@ -50,7 +49,23 @@ class SubmitGuessButton extends ConsumerWidget {
                               child: ClipRRect(
                                   clipBehavior: Clip.antiAlias,
                                   borderRadius: BorderRadius.circular(20.0),
-                                  child: _ResultModalMap()),
+                                  child: CommonMapWidget(
+                                    center: ref.read(pickedCoordinatesProvider),
+                                    markers: CommonMapWidget.markerMaker(
+                                        guess:
+                                            ref.read(pickedCoordinatesProvider),
+                                        actual: ref
+                                            .read(matchProvider)
+                                            .value!
+                                            .coordinates),
+                                    polyline: CommonMapWidget.polylineMaker(
+                                        guess:
+                                            ref.read(pickedCoordinatesProvider),
+                                        actual: ref
+                                            .read(matchProvider)
+                                            .value!
+                                            .coordinates),
+                                  )),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -111,50 +126,6 @@ class _ResultModalContinueButton extends ConsumerWidget {
   }
 }
 
-class _ResultModalMap extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint("building $this");
-    return FlutterMap(
-      options: MapOptions(
-        initialCenter: ref.read(pickedCoordinatesProvider),
-        initialZoom: 3.0,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        ),
-        MarkerLayer(markers: [
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: ref.read(pickedCoordinatesProvider),
-            child: const Icon(
-              MoonIcons.maps_location_32_regular,
-              color: Color.fromARGB(255, 255, 7, 7),
-            ),
-          ),
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: ref.read(matchProvider).value!.coordinates,
-            child: const Icon(
-              MoonIcons.maps_location_32_regular,
-              color: Color.fromARGB(255, 7, 155, 7),
-            ),
-          ),
-        ]),
-        PolylineLayer(polylines: [
-          Polyline(points: [
-            ref.read(pickedCoordinatesProvider),
-            ref.read(matchProvider).value!.coordinates
-          ], color: const Color.fromARGB(255, 7, 105, 255))
-        ])
-      ],
-    );
-  }
-}
-
 class MapillaryWebView extends ConsumerWidget {
   const MapillaryWebView({super.key});
 
@@ -201,31 +172,10 @@ class MapView extends ConsumerWidget {
     return ClipRRect(
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(20.0),
-        child: FlutterMap(
-          options: MapOptions(
-              initialCenter: const LatLng(43.6841, 13.2433),
-              initialZoom: 5.0,
-              onTap: (tapLoc, position) {
-                debugPrint(
-                    "Lat: ${position.latitude}|Lon: ${position.longitude}");
-                ref.read(pickedCoordinatesProvider.notifier).state = position;
-              }),
-          children: [
-            TileLayer(
-              urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            ),
-            MarkerLayer(markers: [
-              Marker(
-                width: 80.0,
-                height: 80.0,
-                point: ref.watch(pickedCoordinatesProvider),
-                child: const Icon(
-                  MoonIcons.maps_location_32_regular,
-                  color: Color.fromARGB(255, 255, 7, 7),
-                ),
-              ),
-            ])
-          ],
+        child: CommonMapWidget(
+          markers: CommonMapWidget.markerMaker(
+              guess: ref.watch(pickedCoordinatesProvider)),
+          updatePosition: true,
         ));
   }
 }
