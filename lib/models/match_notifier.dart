@@ -65,9 +65,9 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
     final int points;
 
     if (distance <= 100) {
-      points = 2000;
-    } else if (distance > 100 && distance <= 2100) {
-      points = 2000 - (distance.round() - 100);
+      points = 5000;
+    } else if (distance > 100 && distance <= 5100) {
+      points = 5000 - (distance.round() - 100);
     } else {
       points = 0;
     }
