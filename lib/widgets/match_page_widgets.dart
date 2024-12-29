@@ -108,10 +108,11 @@ class _ResultModalContinueButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentAccount = ref.watch(currentAccountProvider);
+    final remainingMatches = ref.watch(remainingMatchesProvider);
     return MoonOutlinedButton(
       onTap: () {
         if (currentAccount.value!.guidAccount != null &&
-            ref.watch(remainingMatchesProvider) == 0) {
+            remainingMatches <= 0) {
           ref.read(currentAccountProvider.notifier).updateHighScore();
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const FinalResultPage(),

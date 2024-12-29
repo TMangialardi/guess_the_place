@@ -76,6 +76,12 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
 
     ref.read(latestResultProvider.notifier).state = points;
 
+    if (ref.watch(currentAccountProvider).value!.guidAccount != null) {
+      debugPrint("Saving points of registered account");
+      ref.watch(currentScoreProvider.notifier).state += points;
+      ref.watch(remainingMatchesProvider.notifier).state -= 1;
+    }
+
     final Map<String, String> matchToSave = {
       'ArcadeName': ref.watch(currentAccountProvider).value!.username!,
       'DateTime': DateTime.now().toUtc().toIso8601String(),
@@ -112,12 +118,6 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
       } else {
         debugPrint("Old match removed successfully");
       }
-    }
-
-    if (ref.watch(currentAccountProvider).value!.guidAccount != null) {
-      debugPrint("Saving points of registered account");
-      ref.watch(currentScoreProvider.notifier).state += points;
-      ref.watch(remainingMatchesProvider.notifier).state -= 1;
     }
   }
 }
