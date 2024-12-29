@@ -35,15 +35,13 @@ class ArcadeLoginButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
-    final arcadeUsername = ref.watch(loginUsernameProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
 
     return MoonFilledButton(
         label: const Text("Play"),
         onTap: () {
           FocusScope.of(context).unfocus();
-          debugPrint("arcade user: $arcadeUsername");
-          accountprovider.arcadeLogin(arcadeUsername);
+          accountprovider.arcadeLogin(ref.watch(loginUsernameProvider));
         });
   }
 }

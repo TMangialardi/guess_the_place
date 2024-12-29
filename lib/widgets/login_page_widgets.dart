@@ -90,16 +90,14 @@ class LoginButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
-    final loginUsername = ref.watch(loginUsernameProvider);
-    final loginPassword = ref.watch(loginPasswordProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
 
     return MoonFilledButton(
         label: const Text("Login"),
         onTap: () {
           FocusScope.of(context).unfocus();
-          debugPrint("user: $loginUsername pass: $loginPassword");
-          accountprovider.login(loginUsername, loginPassword);
+          accountprovider.login(ref.watch(loginUsernameProvider),
+              ref.watch(loginPasswordProvider));
         });
   }
 }
@@ -110,16 +108,14 @@ class RegisterButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
-    final loginUsername = ref.watch(loginUsernameProvider);
-    final loginPassword = ref.watch(loginPasswordProvider);
     final accountprovider = ref.read(currentAccountProvider.notifier);
 
     return MoonFilledButton(
         label: const Text("Register"),
         onTap: () {
           FocusScope.of(context).unfocus();
-          debugPrint("user: $loginUsername pass: $loginPassword");
-          accountprovider.registerAndLogin(loginUsername, loginPassword);
+          accountprovider.registerAndLogin(ref.watch(loginUsernameProvider),
+              ref.watch(loginPasswordProvider));
         });
   }
 }
