@@ -63,7 +63,7 @@ final currentScoreProvider = StateProvider((ref) {
   return 0;
 });
 
-final matchHistoryProvider = FutureProvider((ref) async {
+final matchHistoryProvider = FutureProvider.autoDispose((ref) async {
   debugPrint("calling match history API...");
   final response = await http.get(
       Uri.parse(
