@@ -1,6 +1,6 @@
 # Welcome to Guess the Place!
 
-![Guess the Place logo](resource:assets/logo/guesstheplace.png)
+![Guess the Place logo](assets/logo/guesstheplace.png)
 
 **Guess the Place** is a small game realized with Flutter, Inspired by GeoGuessr. You can try to guess the geographical location of a random place in the world, by recognizing elements like road signs, fauna and flora. There are two different game modes.
 
@@ -36,7 +36,7 @@ UI elements: [Moon Design System](https://flutter.moon.io/)
 
 [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) to manage the state and the interaction between pages and widgets
 
-[flutter_markdown](https://pub.dev/packages/flutter_markdown) to render the text document you are reading right now
+[markdown_widget](https://pub.dev/packages/markdown_widget) to render the text document you are reading right now
 
 [http](https://pub.dev/packages/http) to make the API calls
 

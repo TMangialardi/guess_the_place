@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/common_widgets.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 
 class AboutPage extends ConsumerWidget {
   const AboutPage({super.key});
@@ -21,13 +21,24 @@ class AboutPage extends ConsumerWidget {
               ? const BackButtonPortrait()
               : const BackButtonLandscape(),
           Expanded(
-              child: Markdown(
-                  shrinkWrap: true,
-                  data: about.when(
-                      data: (aboutText) => aboutText,
-                      error: (error, stackTrace) =>
-                          "Error reading the about text. Go back and try again.",
-                      loading: () => "Loading...")))
+              child: SingleChildScrollView(
+            child: MarkdownBlock(
+                data: about.when(
+                    data: (aboutText) => aboutText,
+                    error: (error, stackTrace) =>
+                        "Error reading the about text. Go back and try again.",
+                    loading: () => "Loading..."),
+                config: MarkdownConfig(configs: [
+                  LinkConfig(
+                      style: TextStyle(
+                    color: ref.watch(darkThemeProvider)
+                        ? Color.fromARGB(255, 255, 255, 255)
+                        : Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ))
+                ])),
+          ))
         ]),
       );
     }));
