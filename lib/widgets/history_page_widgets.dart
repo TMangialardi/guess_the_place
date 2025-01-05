@@ -106,7 +106,8 @@ class HistoryAccordionLandscape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
-    final String formattedDate = formatter.format(DateTime.parse(date));
+    final String formattedDate =
+        formatter.format(DateTime.parse(date).toLocal());
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(children: [
