@@ -52,3 +52,21 @@ La gestione dello stato è stata effettuata con la libreria [flutter_riverpod](h
 - [json_serializable](https://pub.dev/packages/json_serializable), [json_annotation](https://pub.dev/packages/json_annotation) e [build_runner](https://pub.dev/packages/build_runner) per la generazione automatica del codice necessario all'elaborazione dei documenti JSON resituiti in output dalle API di Baserow e Mapilary
 - [crypto](https://pub.dev/packages/crypto) per la gestione della cifratura SHA-1 che viene applicata alle password degli utenti registrati
 - [intl](https://pub.dev/packages/intl) per la visualizzazione delle date dei match effettuati nel corretto fuso orario all'interno della pagina History
+
+## Screenshots
+
+Homepage con il tema scuro                                      |  Homepage con il tema chiaro                                     |  Accesso in modalità con account                                 |  Accesso in modalità arcade
+:--------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:
+![Homepage con il tema scuro](assets/images/homepage-dark.png)  |  ![Homepage con il tema chiaro](assets/images/homepage-white.png)|  ![Accesso in modalità con account](assets/images/login.png)     |  ![Accesso in modalità arcade](assets/images/arcade.png)
+
+Schermata di benvenuto post-login                               |  Schermata di gioco match                                        |  Risultato match                                                 |  Menù di uscita gioco
+:--------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:
+![Schermata di benvenuto post-login](assets/images/account.png) |  ![Schermata match Android](assets/images/match-android.png)     |  ![Risultato match](assets/images/match-result.png)              |  ![Menù di uscita gioco](assets/images/exit-menu.png)
+
+Punteggio post-partita                                          |  Cronologia match                                                |  Leaderboard                                                     |  Credenziali errate
+:--------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:
+![Punteggio post-partita](assets/images/game-score.png)         |  ![Cronologia match](assets/images/history.png)                  |  ![Leaderboard](assets/images/leaderboard.png)                   |  ![Credenziali errate](assets/images/wrong-credentials.png)
+
+Schermata di gioco match (Windows)
+:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:
+![Schermata match Windows](assets/images/match-wondows.png)
