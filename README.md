@@ -12,6 +12,8 @@ Guess the Place è un gioco ispirato a Geoguessr. Il meccanismo di gioco consist
 
 Guess the Place è pensato per Android e Windows. La funzionalità sulle altre piattaforme supportate da Flutter non è stata testata, tuttavia i pacchetti utilizzati per l'implementazione delle varie funzionalità sono stati selezionati in modo da essere compatibili con tutte le piattaforme supportate da Flutter, di conseguenza è ragionevole pensare che il programma sia in grado di funzionare con aggiustamenti minimi anche su iOS, MacOS, Linux e web.
 
+Per giocare su Windows è necessaria l'installazione del pacchetto [Visual C++ Redistributable per Visual Studio 2015-2022](https://aka.ms/vs/17/release/vc_redist.x64.exe).
+
 ## Modalità di gioco
 
 Sono previste due diverse modalità di gioco.
