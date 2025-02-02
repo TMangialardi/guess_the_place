@@ -17,7 +17,7 @@ import 'pages/home_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ByteData data = await PlatformAssetBundle().load('assets/ca/isrgrootx1.pem');
+  // ByteData data = await PlatformAssetBundle().load('assets/ca/certificate.pem');
   // SecurityContext.defaultContext
   //     .setTrustedCertificatesBytes(data.buffer.asUint8List());
   HttpOverrides.global = MyHttpOverrides();
@@ -86,6 +86,7 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

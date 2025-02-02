@@ -34,7 +34,7 @@ class SubmitGuessButton extends ConsumerWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("you scored"),
+                          const Text("You scored"),
                           const SizedBox(
                             height: 10,
                           ),
@@ -208,53 +208,60 @@ class MatchBackButton extends ConsumerWidget {
                       : MediaQuery.of(context).size.width - 500,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Are you sure you want to stop playing?",
-                            style: Theme.of(context).textTheme.headlineSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                          if (isCurrentUserRegistered)
-                            Text(
-                              "Your current progress will be lost",
-                              style: Theme.of(context).textTheme.headlineSmall,
-                              textAlign: TextAlign.center,
-                            )
-                          else
-                            const SizedBox(height: 50),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Expanded(
-                                child: MoonOutlinedButton(
-                                  label: const Text("Yes"),
-                                  onTap: () {
-                                    if (isCurrentUserRegistered) {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              '/account', (route) => false);
-                                    } else {
-                                      currentAccountNotifier.logout();
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              '/', (route) => false);
-                                    }
-                                  },
-                                ),
+                              Text(
+                                "Are you sure you want to stop playing?",
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                                textAlign: TextAlign.center,
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: MoonOutlinedButton(
-                                    label: const Text("No"),
-                                    onTap: () =>
-                                        Navigator.of(context).pop(context)),
-                              ),
-                            ],
-                          )
-                        ]),
+                              if (isCurrentUserRegistered)
+                                Text(
+                                  "Your current progress will be lost",
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                  textAlign: TextAlign.center,
+                                )
+                              else
+                                const SizedBox(height: 50),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: MoonOutlinedButton(
+                                      label: const Text("Yes"),
+                                      onTap: () {
+                                        if (isCurrentUserRegistered) {
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                                  '/account', (route) => false);
+                                        } else {
+                                          currentAccountNotifier.logout();
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                                  '/', (route) => false);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: MoonOutlinedButton(
+                                        label: const Text("No"),
+                                        onTap: () =>
+                                            Navigator.of(context).pop(context)),
+                                  ),
+                                ],
+                              )
+                            ]),
+                      ),
+                    ),
                   ),
                 ),
               );
