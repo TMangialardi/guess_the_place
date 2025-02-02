@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/pages/about_page.dart';
 import 'package:guess_the_place/pages/account_page.dart';
@@ -17,9 +17,10 @@ import 'pages/home_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ByteData data = await PlatformAssetBundle().load('assets/ca/isrgrootx1.pem');
-  SecurityContext.defaultContext
-      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+  // ByteData data = await PlatformAssetBundle().load('assets/ca/isrgrootx1.pem');
+  // SecurityContext.defaultContext
+  //     .setTrustedCertificatesBytes(data.buffer.asUint8List());
+  HttpOverrides.global = MyHttpOverrides();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -78,5 +79,13 @@ class MyApp extends ConsumerWidget {
       theme: darkThemeEnabled ? darkTheme : lightTheme,
       home: HomePage(darkThemeEnabled: darkThemeEnabled),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
