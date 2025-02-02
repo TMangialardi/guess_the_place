@@ -60,10 +60,10 @@ class HistoryPage extends ConsumerWidget {
                 );
               },
               error: (err, _) {
-                return const Expanded(
+                return Expanded(
                     child: Center(
                         child: Text(
-                  "Uh oh! Something went wrong. Please go back and try again",
+                  "Uh oh! Something went wrong. Please go back and try again. Error: $err",
                   textAlign: TextAlign.center,
                 )));
               },

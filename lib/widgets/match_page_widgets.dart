@@ -156,9 +156,9 @@ class MapillaryWebView extends ConsumerWidget {
                       : NavigationActionPolicy.CANCEL;
                 });
           },
-          error: (error, stacktrace) => const Center(
+          error: (err, _) => Center(
               child: Text(
-                  "Uh oh! Something went wrong, please bo back and try again")),
+                  "Uh oh! Something went wrong, please bo back and try again. Error: $err")),
           loading: () => const Center(child: MoonCircularLoader()),
         ));
   }
