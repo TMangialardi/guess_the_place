@@ -24,11 +24,11 @@ class SubmitGuessButton extends ConsumerWidget {
               return MoonModal(
                 child: SizedBox(
                   height: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.height - 500
-                      : MediaQuery.of(context).size.height - 100,
+                      ? MediaQuery.of(context).size.height * 0.33
+                      : MediaQuery.of(context).size.height * 0.75,
                   width: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.width - 100
-                      : MediaQuery.of(context).size.width - 500,
+                      ? MediaQuery.of(context).size.width * 0.75
+                      : MediaQuery.of(context).size.width * 0.33,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
@@ -201,11 +201,11 @@ class MatchBackButton extends ConsumerWidget {
               return MoonModal(
                 child: SizedBox(
                   height: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.height - 600
-                      : MediaQuery.of(context).size.height - 100,
+                      ? MediaQuery.of(context).size.height * 0.33
+                      : MediaQuery.of(context).size.height * 0.75,
                   width: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.width - 100
-                      : MediaQuery.of(context).size.width - 500,
+                      ? MediaQuery.of(context).size.width * 0.75
+                      : MediaQuery.of(context).size.width * 0.33,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(

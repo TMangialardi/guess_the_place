@@ -44,12 +44,13 @@ class LoginPagePortrait extends ConsumerWidget {
           child: Column(children: [
             const BackButtonPortrait(),
             Expanded(
+                child: Center(
+              child: SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const LoginText(),
-                const Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    const LoginText(),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                     LoginInput(),
                     SizedBox(height: 50),
                     Row(
@@ -63,8 +64,8 @@ class LoginPagePortrait extends ConsumerWidget {
                           Expanded(child: RegisterButton())
                         ])
                   ],
-                )
-              ],
+                ),
+              ),
             )),
           ]),
         ),

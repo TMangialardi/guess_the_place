@@ -46,19 +46,19 @@ class ArcadePagePortrait extends ConsumerWidget {
           child: Column(children: [
             const BackButtonPortrait(),
             Expanded(
+                child: Center(
+              child: SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const ArcadeDescription(),
-                const Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    const ArcadeDescription(),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                     ArcadeLoginInput(),
                     SizedBox(height: 50),
-                    SizedBox(
-                        width: double.infinity, child: ArcadeLoginButton()),
+                    SizedBox(width: double.infinity, child: ArcadeLoginButton())
                   ],
-                )
-              ],
+                ),
+              ),
             )),
           ]),
         ),
