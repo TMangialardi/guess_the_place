@@ -9,7 +9,8 @@ class ArcadeLoginInput extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
-    final TextEditingController textController = TextEditingController();
+    final TextEditingController textController =
+        TextEditingController(text: ref.read(loginUsernameProvider));
 
     return MoonTextInput(
         textInputSize: MoonTextInputSize.xl,

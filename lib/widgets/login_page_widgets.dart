@@ -18,8 +18,10 @@ class _LoginInputState extends ConsumerState<LoginInput> {
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController(text: "");
-    _passwordController = TextEditingController(text: "");
+    _textController =
+        TextEditingController(text: ref.read(loginUsernameProvider));
+    _passwordController =
+        TextEditingController(text: ref.read(loginPasswordProvider));
   }
 
   @override

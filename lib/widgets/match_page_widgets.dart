@@ -13,11 +13,12 @@ class SubmitGuessButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
     Future<void> modalBuilder(BuildContext context) {
+      final scoredPoints = ref.watch(latestResultProvider);
       return showMoonModal<void>(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return PostMatchModal();
+          return PostMatchModal(scoredPoints);
         },
       );
     }
@@ -184,6 +185,14 @@ class MatchBackButton extends ConsumerWidget {
                                               .pushNamedAndRemoveUntil(
                                                   '/account', (route) => false);
                                         } else {
+                                          ref
+                                              .read(loginUsernameProvider
+                                                  .notifier)
+                                              .state = "";
+                                          ref
+                                              .read(loginPasswordProvider
+                                                  .notifier)
+                                              .state = "";
                                           currentAccountNotifier.logout();
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(
@@ -226,11 +235,10 @@ class MatchBackButton extends ConsumerWidget {
 }
 
 class PostMatchModal extends ConsumerWidget {
-  const PostMatchModal({super.key});
+  const PostMatchModal(int scoredPoints, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scoredPoints = ref.watch(latestResultProvider);
     return PopScope(
       canPop: false,
       child: OrientationBuilder(builder: (context, orientation) {
@@ -252,7 +260,7 @@ class PostMatchModal extends ConsumerWidget {
                       height: 10,
                     ),
                     Text(
-                      scoredPoints.toString(),
+                      ref.watch(latestResultProvider).toString(),
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 10),
