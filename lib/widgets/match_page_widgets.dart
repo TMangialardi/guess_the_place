@@ -13,69 +13,11 @@ class SubmitGuessButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
     Future<void> modalBuilder(BuildContext context) {
-      final scoredPoints = ref.watch(latestResultProvider);
       return showMoonModal<void>(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
-          return PopScope(
-            canPop: false,
-            child: OrientationBuilder(builder: (context, orientation) {
-              return MoonModal(
-                child: SizedBox(
-                  height: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.height * 0.33
-                      : MediaQuery.of(context).size.height * 0.75,
-                  width: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.width * 0.75
-                      : MediaQuery.of(context).size.width * 0.33,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("You scored"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            scoredPoints.toString(),
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                          const SizedBox(height: 10),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: ClipRRect(
-                                  clipBehavior: Clip.antiAlias,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: CommonMapWidget(
-                                    center: ref.read(pickedCoordinatesProvider),
-                                    markers: CommonMapWidget.markerMaker(
-                                        guess:
-                                            ref.read(pickedCoordinatesProvider),
-                                        actual: ref
-                                            .read(matchProvider)
-                                            .value!
-                                            .coordinates),
-                                    polyline: CommonMapWidget.polylineMaker(
-                                        guess:
-                                            ref.read(pickedCoordinatesProvider),
-                                        actual: ref
-                                            .read(matchProvider)
-                                            .value!
-                                            .coordinates),
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          _ResultModalContinueButton()
-                        ]),
-                  ),
-                ),
-              );
-            }),
-          );
+          return PostMatchModal();
         },
       );
     }
@@ -280,5 +222,70 @@ class MatchBackButton extends ConsumerWidget {
         ),
       );
     });
+  }
+}
+
+class PostMatchModal extends ConsumerWidget {
+  const PostMatchModal({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scoredPoints = ref.watch(latestResultProvider);
+    return PopScope(
+      canPop: false,
+      child: OrientationBuilder(builder: (context, orientation) {
+        return MoonModal(
+          child: SizedBox(
+            height: orientation == Orientation.portrait
+                ? MediaQuery.of(context).size.height * 0.33
+                : MediaQuery.of(context).size.height * 0.75,
+            width: orientation == Orientation.portrait
+                ? MediaQuery.of(context).size.width * 0.75
+                : MediaQuery.of(context).size.width * 0.33,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("You scored"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      scoredPoints.toString(),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: CommonMapWidget(
+                              center: ref.read(pickedCoordinatesProvider),
+                              markers: CommonMapWidget.markerMaker(
+                                  guess: ref.read(pickedCoordinatesProvider),
+                                  actual: ref
+                                      .read(matchProvider)
+                                      .value!
+                                      .coordinates),
+                              polyline: CommonMapWidget.polylineMaker(
+                                  guess: ref.read(pickedCoordinatesProvider),
+                                  actual: ref
+                                      .read(matchProvider)
+                                      .value!
+                                      .coordinates),
+                            )),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _ResultModalContinueButton()
+                  ]),
+            ),
+          ),
+        );
+      }),
+    );
   }
 }
