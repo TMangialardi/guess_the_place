@@ -52,6 +52,8 @@ dependencies:
 
   markdown_widget: ^2.3.2+6 #to render the text document in the about page
 
+  localstorage: ^5.0.0 #to save locally user preferences
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -5,6 +5,7 @@ import 'package:guess_the_place/pages/arcade_page.dart';
 import 'package:guess_the_place/pages/history_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/providers.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:moon_design/moon_design.dart';
 
 class GameModesWidget extends StatelessWidget {
@@ -76,11 +77,13 @@ class DarkModeSwitchWidget extends ConsumerWidget {
 
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       MoonSwitch(
-        value: darkThemeEnabled,
-        inactiveTrackWidget: const Icon(MoonIcons.other_sun_16_regular),
-        activeTrackWidget: const Icon(MoonIcons.other_moon_16_regular),
-        onChanged: (dark) => ref.read(darkThemeProvider.notifier).state = dark,
-      ),
+          value: darkThemeEnabled,
+          inactiveTrackWidget: const Icon(MoonIcons.other_sun_16_regular),
+          activeTrackWidget: const Icon(MoonIcons.other_moon_16_regular),
+          onChanged: (dark) {
+            ref.read(darkThemeProvider.notifier).state = dark;
+            localStorage.setItem('darkMode', dark.toString());
+          }),
     ]);
   }
 }

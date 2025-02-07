@@ -185,14 +185,6 @@ class MatchBackButton extends ConsumerWidget {
                                               .pushNamedAndRemoveUntil(
                                                   '/account', (route) => false);
                                         } else {
-                                          ref
-                                              .read(loginUsernameProvider
-                                                  .notifier)
-                                              .state = "";
-                                          ref
-                                              .read(loginPasswordProvider
-                                                  .notifier)
-                                              .state = "";
                                           currentAccountNotifier.logout();
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(

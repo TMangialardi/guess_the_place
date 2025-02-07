@@ -11,11 +11,14 @@ import 'package:guess_the_place/pages/leaderboard_page.dart';
 import 'package:guess_the_place/pages/login_page.dart';
 import 'package:guess_the_place/pages/match_page.dart';
 import 'package:guess_the_place/providers.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:moon_design/moon_design.dart';
 import 'pages/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initLocalStorage();
 
   // ByteData data = await PlatformAssetBundle().load('assets/ca/certificate.pem');
   // SecurityContext.defaultContext
@@ -77,7 +80,7 @@ class MyApp extends ConsumerWidget {
         '/leaderboard': (context) => const LeaderboardPage(),
       },
       theme: darkThemeEnabled ? darkTheme : lightTheme,
-      home: HomePage(darkThemeEnabled: darkThemeEnabled),
+      home: HomePage(),
     );
   }
 }

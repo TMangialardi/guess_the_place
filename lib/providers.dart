@@ -11,10 +11,12 @@ import 'package:guess_the_place/models/leaderboard_data.dart';
 import 'package:guess_the_place/models/match_notifier.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 
 final darkThemeProvider = StateProvider.autoDispose((ref) {
   debugPrint("Building darkThemeProvider");
-  return true;
+  final savedDarkMode = localStorage.getItem("darkMode") ?? "true";
+  return savedDarkMode.toLowerCase() == "true";
 });
 
 final aboutTextProvider = FutureProvider.autoDispose((ref) async {
@@ -30,12 +32,17 @@ final currentAccountProvider =
 
 final loginUsernameProvider = StateProvider((ref) {
   debugPrint("Building loginUsernameProvider");
-  return "";
+  return localStorage.getItem("username") ?? "";
 });
 
 final loginPasswordProvider = StateProvider((ref) {
   debugPrint("Building loginPasswordProvider");
-  return "";
+  return localStorage.getItem("password") ?? "";
+});
+
+final arcadeNicknameProvider = StateProvider((ref) {
+  debugPrint("Building arcadeNicknameProvider");
+  return localStorage.getItem("arcade") ?? "";
 });
 
 final matchProvider = AsyncNotifierProvider<MatchNotifier, GameMatch?>(() {

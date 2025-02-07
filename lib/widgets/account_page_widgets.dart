@@ -21,8 +21,6 @@ class OptionsWidget extends ConsumerWidget {
           label: const Text("Log out"),
           trailing: const Icon(MoonIcons.controls_chevron_left_small_32_light),
           onTap: () {
-            ref.read(loginUsernameProvider.notifier).state = "";
-            ref.read(loginPasswordProvider.notifier).state = "";
             ref.read(currentAccountProvider.notifier).logout();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/', (route) => false);

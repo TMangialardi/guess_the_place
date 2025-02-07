@@ -7,6 +7,7 @@ import 'package:guess_the_place/providers.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/current_account.dart';
+import 'package:localstorage/localstorage.dart';
 
 class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
   @override
@@ -51,6 +52,8 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
     }
     debugPrint("calling the login method");
 
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
     state = AsyncValue.data(CurrentAccount.login(
         guidAccount: account.results![0].guidAccount,
         baserowLineId: account.results![0].id,
@@ -66,6 +69,7 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
           CurrentAccount.notifyError(error: "Username can't be empty."));
       return;
     }
+    localStorage.setItem('arcade', username);
     state = AsyncValue.data(CurrentAccount.arcade(username: username));
   }
 

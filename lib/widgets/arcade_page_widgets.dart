@@ -10,7 +10,7 @@ class ArcadeLoginInput extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this");
     final TextEditingController textController =
-        TextEditingController(text: ref.read(loginUsernameProvider));
+        TextEditingController(text: ref.read(arcadeNicknameProvider));
 
     return MoonTextInput(
         textInputSize: MoonTextInputSize.xl,
@@ -25,7 +25,7 @@ class ArcadeLoginInput extends ConsumerWidget {
         ),
         onChanged: (value) {
           debugPrint("Current user value: ${textController.text}");
-          ref.read(loginUsernameProvider.notifier).state = textController.text;
+          ref.read(arcadeNicknameProvider.notifier).state = textController.text;
         });
   }
 }
@@ -42,7 +42,7 @@ class ArcadeLoginButton extends ConsumerWidget {
         label: const Text("Play"),
         onTap: () {
           FocusScope.of(context).unfocus();
-          accountprovider.arcadeLogin(ref.watch(loginUsernameProvider));
+          accountprovider.arcadeLogin(ref.watch(arcadeNicknameProvider));
         });
   }
 }
