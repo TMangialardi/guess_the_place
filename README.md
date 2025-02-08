@@ -57,6 +57,7 @@ La gestione dello stato è stata effettuata con la libreria [flutter_riverpod](h
 - [json_serializable](https://pub.dev/packages/json_serializable), [json_annotation](https://pub.dev/packages/json_annotation) e [build_runner](https://pub.dev/packages/build_runner) per la generazione automatica del codice necessario all'elaborazione dei documenti JSON resituiti in output dalle API di Baserow e Mapilary
 - [crypto](https://pub.dev/packages/crypto) per la gestione della cifratura SHA-1 che viene applicata alle password degli utenti registrati
 - [intl](https://pub.dev/packages/intl) per la visualizzazione delle date dei match effettuati nel corretto fuso orario all'interno della pagina History
+- [localstorage](https://pub.dev/packages/localstorage) per il salvataggio in locale di alcune preferenze dell'utente
 
 ## Screenshots
 

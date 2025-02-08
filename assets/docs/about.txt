@@ -51,3 +51,5 @@ UI elements: [Moon Design System](https://flutter.moon.io/)
 [latlong2](https://pub.dev/packages/latlong2) to easily manage geographical coordinates
 
 [intl](https://pub.dev/packages/intl) to improve the visualization of dates inside the history page
+
+[localstorage](https://pub.dev/packages/localstorage) to save local preferences
