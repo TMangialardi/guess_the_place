@@ -10,13 +10,71 @@ Guess the Place è un gioco ispirato a Geoguessr. Il meccanismo di gioco consist
 
 ## Ultime novità
 
-Guess the Place è ora giocabile anche con un web browser, accedendo a https://tmangialardi.github.io/. La versione web presenta tutte le funzionalità complete delle versioni PC e Android. È presente un bug noto relativo alla schermata che viene mostrata a seguito di un match. I click di navigazione della mappa con la posizione corretta della località individuata vengono intercettati dalla pagina web sottostante contenente la vista di Mapillary. Si tratta di un problema che gli sviluppatori di flutter_inappwebview identificano come un bug di Flutter.
+Guess the Place è ora giocabile anche con un web browser, accedendo a https://tmangialardi.github.io/. La versione web presenta tutte le funzionalità complete delle versioni PC e Android. È presente un bug noto relativo alla schermata che viene mostrata a seguito di un match. I click di navigazione della mappa visualizzata sotto al punteggio totalizzato vengono intercettati dalla pagina web sottostante contenente la vista di Mapillary. Si tratta di un problema che gli sviluppatori di flutter_inappwebview identificano come un bug di Flutter.
 
-È stato inoltre introdotto il salvataggio in locale di alcune preferenze dell'utente. In particolare, vengono salvate in locale le ultime credenziali con cui è stato effettuato l'accesso, l'ultimo nickname con cui si è giocata la modalità arcade e la scelta relativa al tema scuro.
+È stato inoltre introdotto il salvataggio in locale di alcune preferenze dell'utente. In particolare, vengono salvate in locale le ultime credenziali con cui è stato effettuato l'accesso, l'ultimo nickname con cui si è giocata la modalità arcade e la scelta relativa al tema scuro. Tali modifiche sono state implementate utilizzando la libreria [localstorage](https://pub.dev/packages/localstorage), che permette un salvataggio in locale di informazioni elementari e, al contrario di altre soluzioni, supporta anche il web.
+
+La gestione delle informazioni ora salvate in locale avveniva già in precedenza con i provider di Riverpod. È stato definito un nuovo provider dedicato al nickname della modalità arcade, che in precedenza ne utilizzava uno condiviso con l'username della modalità con account. I provider relativi alle credenziali, definiti nel file **providers.dart**, ora hanno la seguente struttura:
+
+```dart
+final loginUsernameProvider = StateProvider((ref) {
+  debugPrint("Building loginUsernameProvider");
+  return localStorage.getItem("username") ?? "";
+});
+
+final loginPasswordProvider = StateProvider((ref) {
+  debugPrint("Building loginPasswordProvider");
+  return localStorage.getItem("password") ?? "";
+});
+
+final arcadeNicknameProvider = StateProvider((ref) {
+  debugPrint("Building arcadeNicknameProvider");
+  return localStorage.getItem("arcade") ?? "";
+});
+```
+
+Questo permette di ottenere come default una stringa vuota qualora non ci siano ancora preferenze salvate in memoria. Il provider dedicato alla modalità scura ora valuta se il valore della preferenza salvata con localstorage è uguale alla stringa "true", in linea con il formato dei dati gestito da localstorage. Anche in questo caso è presente un valore di default.
+
+```dart
+final darkThemeProvider = StateProvider.autoDispose((ref) {
+  debugPrint("Building darkThemeProvider");
+  final savedDarkMode = localStorage.getItem("darkMode") ?? "true";
+  return savedDarkMode.toLowerCase() == "true";
+});
+```
+
+Nell metodo *main* del file **main.dart** è stata introdotta l'inizializzazione asincrona di localstorage che permette alla libreria di funzionare correttamente.
+
+```dart
+  await initLocalStorage();
+```
+
+Nei metodi *login*, *registerAndLogin* e *arcadeLogin* del file **match_notifier.dart**, che definisce le funzionalità relative all'account, prima della restituzione del nuovo stato dell'account, sono stati aggiunte le chiamate ai metodi di localstorage per il salvataggio delle ultime credenziali valide immesse, in modo che siano disponibili alla successiva apertura dell'app.
+
+```dart
+  localStorage.setItem('username', username);
+  localStorage.setItem('password', password);
+```
+```dart
+    localStorage.setItem('arcade', username);
+```
+
+Per quanto riguarda la preferenza relativa al tema scelto, questa viene salvata in localstorage come una stringa ad ogni tap dello switch per il cambio di modalità, convertendo in una stringa il valore booleano che viene salvato nel provider. Lo switch, definito dalla classe *DarkModeSwitchWidget* nel file **home_page_widgets.dart**, ha ora la seguente struttura.
+
+```dart
+    MoonSwitch(
+          value: darkThemeEnabled,
+          inactiveTrackWidget: const Icon(MoonIcons.other_sun_16_regular),
+          activeTrackWidget: const Icon(MoonIcons.other_moon_16_regular),
+          onChanged: (dark) {
+            ref.read(darkThemeProvider.notifier).state = dark;
+            localStorage.setItem('darkMode', dark.toString());
+          })
+```
 
 ## Compatibilità
 
-Guess the Place è pensato per Android e Windows. La funzionalità sulle altre piattaforme supportate da Flutter non è stata testata, tuttavia i pacchetti utilizzati per l'implementazione delle varie funzionalità sono stati selezionati in modo da essere compatibili con tutte le piattaforme supportate da Flutter, di conseguenza è ragionevole pensare che il programma sia in grado di funzionare con aggiustamenti minimi anche su iOS, MacOS, Linux e web.
+Guess the Place è pensato per Android, Windows e Web. La funzionalità sulle altre piattaforme supportate da Flutter non è stata testata, tuttavia i pacchetti utilizzati per l'implementazione delle varie funzionalità sono stati selezionati in modo da essere compatibili con tutte le piattaforme supportate da Flutter, di conseguenza è ragionevole pensare che il programma sia in grado di funzionare con aggiustamenti minimi anche su iOS, MacOS e Linux.
 
 Per giocare su Windows è necessaria l'installazione dei seguenti pacchetti, se non già presenti nel sistema:
 
@@ -63,7 +121,6 @@ La gestione dello stato è stata effettuata con la libreria [flutter_riverpod](h
 - [json_serializable](https://pub.dev/packages/json_serializable), [json_annotation](https://pub.dev/packages/json_annotation) e [build_runner](https://pub.dev/packages/build_runner) per la generazione automatica del codice necessario all'elaborazione dei documenti JSON resituiti in output dalle API di Baserow e Mapilary
 - [crypto](https://pub.dev/packages/crypto) per la gestione della cifratura SHA-1 che viene applicata alle password degli utenti registrati
 - [intl](https://pub.dev/packages/intl) per la visualizzazione delle date dei match effettuati nel corretto fuso orario all'interno della pagina History
-- [localstorage](https://pub.dev/packages/localstorage) per il salvataggio in locale di alcune preferenze dell'utente
 
 ## Screenshots
 
