@@ -8,6 +8,12 @@ Studente: Tommaso Mangialardi - Matricola n° 337880
 
 Guess the Place è un gioco ispirato a Geoguessr. Il meccanismo di gioco consiste nel visualizzare l'immagine di un luogo nel mondo e collocarlo sulla mappa, avvicinandosi il più possibile alla posizione reale.
 
+## Ultime novità
+
+Guess the Place è ora giocabile anche con un web browser, accedendo a https://tmangialardi.github.io/. La versione web presenta tutte le funzionalità complete delle versioni PC e Android. È presente un bug noto relativo alla schermata che viene mostrata a seguito di un match. I click di navigazione della mappa con la posizione corretta della località individuata vengono intercettati dalla pagina web sottostante contenente la vista di Mapillary. Si tratta di un problema che gli sviluppatori di flutter_inappwebview identificano come un bug di Flutter.
+
+È stato inoltre introdotto il salvataggio in locale di alcune preferenze dell'utente. In particolare, vengono salvate in locale le ultime credenziali con cui è stato effettuato l'accesso, l'ultimo nickname con cui si è giocata la modalità arcade e la scelta relativa al tema scuro.
+
 ## Compatibilità
 
 Guess the Place è pensato per Android e Windows. La funzionalità sulle altre piattaforme supportate da Flutter non è stata testata, tuttavia i pacchetti utilizzati per l'implementazione delle varie funzionalità sono stati selezionati in modo da essere compatibili con tutte le piattaforme supportate da Flutter, di conseguenza è ragionevole pensare che il programma sia in grado di funzionare con aggiustamenti minimi anche su iOS, MacOS, Linux e web.
