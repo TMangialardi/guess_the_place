@@ -130,6 +130,8 @@ class AccountNotifier extends AsyncNotifier<CurrentAccount?> {
     Map<String, dynamic> rawCreatedAccount = jsonDecode(creation.body);
     final createdAccount = Results.fromJson(rawCreatedAccount);
 
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
     CurrentAccount.login(
         guidAccount: createdAccount.guidAccount,
         baserowLineId: createdAccount.id,
