@@ -53,3 +53,5 @@ UI elements: [Moon Design System](https://flutter.moon.io/)
 [intl](https://pub.dev/packages/intl) to improve the visualization of dates inside the history page
 
 [localstorage](https://pub.dev/packages/localstorage) to save local preferences
+
+[pointer_interceptor](https://pub.dev/packages/pointer_interceptor) to handle the mouse gestures inside the modals in the web version

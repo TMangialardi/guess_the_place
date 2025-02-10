@@ -54,6 +54,8 @@ dependencies:
 
   localstorage: ^5.0.0 #to save locally user preferences
 
+  pointer_interceptor: ^0.10.1+2 #to handle the mouse gestures inside the modals in the web version
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

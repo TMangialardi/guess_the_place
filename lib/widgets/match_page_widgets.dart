@@ -5,6 +5,7 @@ import 'package:guess_the_place/pages/final_result_page.dart';
 import 'package:guess_the_place/providers.dart';
 import 'package:guess_the_place/widgets/common_widgets.dart';
 import 'package:moon_design/moon_design.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class SubmitGuessButton extends ConsumerWidget {
   const SubmitGuessButton({super.key});
@@ -172,35 +173,38 @@ class MatchBackButton extends ConsumerWidget {
                               else
                                 const SizedBox(height: 50),
                               const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: MoonOutlinedButton(
-                                      label: const Text("Yes"),
-                                      onTap: () {
-                                        if (isCurrentUserRegistered) {
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                                  '/account', (route) => false);
-                                        } else {
-                                          currentAccountNotifier.logout();
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(
-                                                  '/', (route) => false);
-                                        }
-                                      },
+                              PointerInterceptor(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: MoonOutlinedButton(
+                                        label: const Text("Yes"),
+                                        onTap: () {
+                                          if (isCurrentUserRegistered) {
+                                            Navigator.of(context)
+                                                .pushNamedAndRemoveUntil(
+                                                    '/account',
+                                                    (route) => false);
+                                          } else {
+                                            currentAccountNotifier.logout();
+                                            Navigator.of(context)
+                                                .pushNamedAndRemoveUntil(
+                                                    '/', (route) => false);
+                                          }
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: MoonOutlinedButton(
-                                        label: const Text("No"),
-                                        onTap: () =>
-                                            Navigator.of(context).pop(context)),
-                                  ),
-                                ],
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: MoonOutlinedButton(
+                                          label: const Text("No"),
+                                          onTap: () => Navigator.of(context)
+                                              .pop(context)),
+                                    ),
+                                  ],
+                                ),
                               )
                             ]),
                       ),
@@ -262,25 +266,27 @@ class PostMatchModal extends ConsumerWidget {
                         child: ClipRRect(
                             clipBehavior: Clip.antiAlias,
                             borderRadius: BorderRadius.circular(20.0),
-                            child: CommonMapWidget(
-                              center: ref.read(pickedCoordinatesProvider),
-                              markers: CommonMapWidget.markerMaker(
-                                  guess: ref.read(pickedCoordinatesProvider),
-                                  actual: ref
-                                      .read(matchProvider)
-                                      .value!
-                                      .coordinates),
-                              polyline: CommonMapWidget.polylineMaker(
-                                  guess: ref.read(pickedCoordinatesProvider),
-                                  actual: ref
-                                      .read(matchProvider)
-                                      .value!
-                                      .coordinates),
+                            child: PointerInterceptor(
+                              child: CommonMapWidget(
+                                center: ref.read(pickedCoordinatesProvider),
+                                markers: CommonMapWidget.markerMaker(
+                                    guess: ref.read(pickedCoordinatesProvider),
+                                    actual: ref
+                                        .read(matchProvider)
+                                        .value!
+                                        .coordinates),
+                                polyline: CommonMapWidget.polylineMaker(
+                                    guess: ref.read(pickedCoordinatesProvider),
+                                    actual: ref
+                                        .read(matchProvider)
+                                        .value!
+                                        .coordinates),
+                              ),
                             )),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    _ResultModalContinueButton()
+                    PointerInterceptor(child: _ResultModalContinueButton())
                   ]),
             ),
           ),
