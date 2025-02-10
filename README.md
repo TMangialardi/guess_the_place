@@ -14,8 +14,9 @@ Guess the Place è ora giocabile anche con un web browser, accedendo a https://t
 
 È stato inoltre introdotto il salvataggio in locale di alcune preferenze dell'utente. In particolare, vengono salvate in locale le ultime credenziali con cui è stato effettuato l'accesso, l'ultimo nickname con cui si è giocata la modalità arcade e la scelta relativa al tema scuro. Tali modifiche sono state implementate utilizzando la libreria [localstorage](https://pub.dev/packages/localstorage), che permette un salvataggio in locale di informazioni elementari e, al contrario di altre soluzioni, supporta anche il web.
 
-La gestione delle informazioni ora salvate in locale avveniva già in precedenza con i provider di Riverpod. È stato definito un nuovo provider dedicato al nickname della modalità arcade, che in precedenza ne utilizzava uno condiviso con l'username della modalità con account. I provider relativi alle credenziali, definiti nel file **providers.dart**, ora hanno la seguente struttura:
+La gestione delle informazioni ora salvate in locale avveniva già in precedenza con i provider di Riverpod. È stato definito un nuovo provider dedicato al nickname della modalità arcade, che in precedenza ne utilizzava uno condiviso con l'username della modalità con account. I provider relativi alle credenziali ora hanno la seguente struttura:
 
+``lib/providers.dart:23-46``
 ```dart
 final loginUsernameProvider = StateProvider((ref) {
   debugPrint("Building loginUsernameProvider");
@@ -35,6 +36,7 @@ final arcadeNicknameProvider = StateProvider((ref) {
 
 Questo permette di ottenere come default una stringa vuota qualora non ci siano ancora preferenze salvate in memoria. Il provider dedicato alla modalità scura ora valuta se il valore della preferenza salvata con localstorage è uguale alla stringa "true", in linea con il formato dei dati gestito da localstorage. Anche in questo caso è presente un valore di default.
 
+``lib/providers.dart:16-20``
 ```dart
 final darkThemeProvider = StateProvider.autoDispose((ref) {
   debugPrint("Building darkThemeProvider");
@@ -43,24 +45,33 @@ final darkThemeProvider = StateProvider.autoDispose((ref) {
 });
 ```
 
-Nell metodo *main* del file **main.dart** è stata introdotta l'inizializzazione asincrona di localstorage che permette alla libreria di funzionare correttamente.
+Nell metodo *main* è stata introdotta l'inizializzazione asincrona di localstorage che permette alla libreria di funzionare correttamente.
 
+``lib/main.dart:21``
 ```dart
   await initLocalStorage();
 ```
 
 Nei metodi *login*, *registerAndLogin* e *arcadeLogin* del file **match_notifier.dart**, che definisce le funzionalità relative all'account, prima della restituzione del nuovo stato dell'account, sono stati aggiunte le chiamate ai metodi di localstorage per il salvataggio delle ultime credenziali valide immesse, in modo che siano disponibili alla successiva apertura dell'app.
 
+``lib/models/account_notifier.dart:55-56``
 ```dart
   localStorage.setItem('username', username);
   localStorage.setItem('password', password);
 ```
+``lib/models/account_notifier.dart:133-134``
+```dart
+  localStorage.setItem('username', username);
+  localStorage.setItem('password', password);
+```
+``lib/models/account_notifier.dart:72``
 ```dart
     localStorage.setItem('arcade', username);
 ```
 
 Per quanto riguarda la preferenza relativa al tema scelto, questa viene salvata in localstorage come una stringa ad ogni tap dello switch per il cambio di modalità, convertendo in una stringa il valore booleano che viene salvato nel provider. Lo switch, definito dalla classe *DarkModeSwitchWidget* nel file **home_page_widgets.dart**, ha ora la seguente struttura.
 
+``lib/widgets/home_page_widgets.dart:79-86``
 ```dart
     MoonSwitch(
           value: darkThemeEnabled,
@@ -69,7 +80,7 @@ Per quanto riguarda la preferenza relativa al tema scelto, questa viene salvata 
           onChanged: (dark) {
             ref.read(darkThemeProvider.notifier).state = dark;
             localStorage.setItem('darkMode', dark.toString());
-          })
+          }),
 ```
 
 ## Compatibilità
