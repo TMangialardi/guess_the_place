@@ -142,39 +142,40 @@ class MatchBackButton extends ConsumerWidget {
           return PopScope(
             canPop: false,
             child: OrientationBuilder(builder: (context, orientation) {
-              return MoonModal(
-                child: SizedBox(
-                  height: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.height * 0.33
-                      : MediaQuery.of(context).size.height * 0.75,
-                  width: orientation == Orientation.portrait
-                      ? MediaQuery.of(context).size.width * 0.75
-                      : MediaQuery.of(context).size.width * 0.33,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Are you sure you want to stop playing?",
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                                textAlign: TextAlign.center,
-                              ),
-                              if (isCurrentUserRegistered)
+              return PointerInterceptor(
+                child: MoonModal(
+                  child: SizedBox(
+                    height: orientation == Orientation.portrait
+                        ? MediaQuery.of(context).size.height * 0.33
+                        : MediaQuery.of(context).size.height * 0.75,
+                    width: orientation == Orientation.portrait
+                        ? MediaQuery.of(context).size.width * 0.75
+                        : MediaQuery.of(context).size.width * 0.33,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(
+                        child: SingleChildScrollView(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Text(
-                                  "Your current progress will be lost",
+                                  "Are you sure you want to stop playing?",
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                   textAlign: TextAlign.center,
-                                )
-                              else
-                                const SizedBox(height: 50),
-                              const SizedBox(height: 10),
-                              PointerInterceptor(
-                                child: Row(
+                                ),
+                                if (isCurrentUserRegistered)
+                                  Text(
+                                    "Your current progress will be lost",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                    textAlign: TextAlign.center,
+                                  )
+                                else
+                                  const SizedBox(height: 50),
+                                const SizedBox(height: 10),
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -204,9 +205,9 @@ class MatchBackButton extends ConsumerWidget {
                                               .pop(context)),
                                     ),
                                   ],
-                                ),
-                              )
-                            ]),
+                                )
+                              ]),
+                        ),
                       ),
                     ),
                   ),
@@ -238,35 +239,35 @@ class PostMatchModal extends ConsumerWidget {
     return PopScope(
       canPop: false,
       child: OrientationBuilder(builder: (context, orientation) {
-        return MoonModal(
-          child: SizedBox(
-            height: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.height * 0.33
-                : MediaQuery.of(context).size.height * 0.75,
-            width: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.75
-                : MediaQuery.of(context).size.width * 0.33,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("You scored"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      ref.watch(latestResultProvider).toString(),
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: ClipRRect(
-                            clipBehavior: Clip.antiAlias,
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: PointerInterceptor(
+        return PointerInterceptor(
+          child: MoonModal(
+            child: SizedBox(
+              height: orientation == Orientation.portrait
+                  ? MediaQuery.of(context).size.height * 0.33
+                  : MediaQuery.of(context).size.height * 0.75,
+              width: orientation == Orientation.portrait
+                  ? MediaQuery.of(context).size.width * 0.75
+                  : MediaQuery.of(context).size.width * 0.33,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("You scored"),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        ref.watch(latestResultProvider).toString(),
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: ClipRRect(
+                              clipBehavior: Clip.antiAlias,
+                              borderRadius: BorderRadius.circular(20.0),
                               child: CommonMapWidget(
                                 center: ref.read(pickedCoordinatesProvider),
                                 markers: CommonMapWidget.markerMaker(
@@ -281,13 +282,13 @@ class PostMatchModal extends ConsumerWidget {
                                         .read(matchProvider)
                                         .value!
                                         .coordinates),
-                              ),
-                            )),
+                              )),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    PointerInterceptor(child: _ResultModalContinueButton())
-                  ]),
+                      const SizedBox(height: 10),
+                      _ResultModalContinueButton()
+                    ]),
+              ),
             ),
           ),
         );
