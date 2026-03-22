@@ -32,7 +32,7 @@ dependencies:
 
   moon_design: ^1.0.7 #to give to the app a non-platform-specific UI
 
-  flutter_riverpod: ^2.6.1 #to manage the state and the interaction between pages and widgets
+  flutter_riverpod: ^3.3.1 #to manage the state and the interaction between pages and widgets
 
   http: ^1.2.2 #to make the API calls
 
@@ -44,7 +44,7 @@ dependencies:
   
   flutter_inappwebview: ^6.1.5 #to show Mapillary places inside the app
 
-  flutter_map: ^7.0.2 #to add OpenStreetMap in various widgets
+  flutter_map: ^8.2.2 #to add OpenStreetMap in various widgets
 
   latlong2: ^0.9.1 #to easily manage geographical coordinates
 
@@ -52,7 +52,7 @@ dependencies:
 
   markdown_widget: ^2.3.2+6 #to render the text document in the about page
 
-  localstorage: ^5.0.0 #to save locally user preferences
+  localstorage: ^6.0.0 #to save locally user preferences
 
   pointer_interceptor: ^0.10.1+2 #to handle the mouse gestures inside the modals in the web version
 
@@ -67,7 +67,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:guess_the_place/models/game_match.dart';
 import 'package:guess_the_place/models/latest_matches_data.dart';
@@ -18,17 +19,14 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
 
   Future<void> newMatch() async {
     state = const AsyncValue.loading();
-    final random = Random();
     LatLng? coordinates;
     String? mapillaryCode;
     bool keepTrying = true;
     do {
-      coordinates = LatLng(
-          (random.nextDouble() * 180) - 90, (random.nextDouble() * 360) - 180);
-      debugPrint("Calling Mapillary API...");
+      coordinates = await _randomCoordinateFromCountry();
       final response = await http.get(Uri.parse(
           "https://graph.mapillary.com/images?access_token=MLY|8426886974094861|f893688326346a2713136e0e15290d5a&fields=id&bbox="
-          "${coordinates.longitude - 0.5},${coordinates.latitude - 0.5},${coordinates.longitude + 0.5},${coordinates.latitude + 0.5}&limit=5"));
+          "${coordinates.longitude - 0.005},${coordinates.latitude - 0.005},${coordinates.longitude + 0.005},${coordinates.latitude + 0.005}&limit=5"));
       debugPrint("URI: ${response.request?.url.toString()}");
       debugPrint("API called: ${response.body} checking status code...");
       if (response.statusCode != 200) {
@@ -119,5 +117,34 @@ class MatchNotifier extends AsyncNotifier<GameMatch?> {
         debugPrint("Old match removed successfully");
       }
     }
+  }
+
+  Future<LatLng> _randomCoordinateFromCountry() async {
+    final random = Random();
+
+    debugPrint("Fetching random coordinates from bbox JSON");
+
+    final String jsonString =
+        await rootBundle.loadString('assets/docs/bounding-boxes.json');
+    final Map<String, dynamic> data = jsonDecode(jsonString);
+
+    final entries = data.entries.toList();
+    final entry = entries[random.nextInt(entries.length)];
+
+    debugPrint("Picked country: ${entry.key}");
+
+    final bbox = (entry.value[1] as List).cast<double>();
+
+    final double minLon = bbox[0];
+    final double minLat = bbox[1];
+    final double maxLon = bbox[2];
+    final double maxLat = bbox[3];
+
+    final double lon = minLon + random.nextDouble() * (maxLon - minLon);
+    final double lat = minLat + random.nextDouble() * (maxLat - minLat);
+
+    debugPrint("Picked coordinates: LON $lon LAT $lat");
+
+    return LatLng(lat, lon);
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:guess_the_place/models/account_notifier.dart';
 import 'package:guess_the_place/models/current_account.dart';
 import 'package:guess_the_place/models/game_match.dart';

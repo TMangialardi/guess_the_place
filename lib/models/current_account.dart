@@ -17,11 +17,11 @@ class CurrentAccount {
   }
 
   static CurrentAccount login(
-      {required guidAccount,
-      required baserowLineId,
-      required username,
-      required password,
-      required personalRecord}) {
+      {required String? guidAccount,
+      required int? baserowLineId,
+      required String? username,
+      required String? password,
+      required int? personalRecord}) {
     _singleton.guidAccount = guidAccount;
     _singleton.baserowLineId = baserowLineId;
     _singleton.username = username;
